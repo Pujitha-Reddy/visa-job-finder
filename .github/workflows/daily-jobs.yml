@@ -1,0 +1,59 @@
+name: Collect Jobs
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "17 7,10,13,16,19,22 * * *"
+      timezone: "America/Chicago"
+
+jobs:
+  collect-jobs:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Collect current jobs
+        working-directory: backend
+        run: |
+          python -m app.collect
+
+      - name: Enrich sponsor history
+        working-directory: backend
+        run: |
+          python -m app.import_sponsors --enrich
+
+      - name: Recalculate scores
+        working-directory: backend
+        run: |
+          python -m app.score_jobs
+
+      - name: Commit updated job database
+        run: |
+          git config user.name "visa-job-finder-bot"
+          git config user.email "visa-job-finder-bot@users.noreply.github.com"
+
+          git add backend/data/jobs.db
+
+          if git diff --cached --quiet; then
+            echo "No job database changes."
+          else
+            git commit -m "Update job listings"
+            git push
+          fi
