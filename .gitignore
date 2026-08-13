@@ -1,7 +1,9 @@
 .venv/
 __pycache__/
 *.pyc
-backend/data/*.db
 node_modules/
 dist/
 .env
+
+# Track our job database because GitHub Actions currently uses it
+!backend/data/jobs.db
