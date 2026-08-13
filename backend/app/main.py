@@ -1,3 +1,4 @@
+from .v80_routes import router as v80_router
 from fastapi import FastAPI, Query, HTTPException
 from .v78_routes import router as v78_router
 from pydantic import BaseModel
@@ -16,6 +17,8 @@ app = FastAPI(
     version="0.1.0",
     description="API for filtered software-engineering jobs with sponsorship and F-1 review signals.",
 )
+
+app.include_router(v80_router)
 
 app.include_router(v78_router)
 
