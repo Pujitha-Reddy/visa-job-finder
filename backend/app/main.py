@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Query, HTTPException
+from .v78_routes import router as v78_router
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
@@ -15,6 +16,8 @@ app = FastAPI(
     version="0.1.0",
     description="API for filtered software-engineering jobs with sponsorship and F-1 review signals.",
 )
+
+app.include_router(v78_router)
 
 
 app.add_middleware(

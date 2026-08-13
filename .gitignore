@@ -7,3 +7,4 @@ dist/
 
 # Track our job database because GitHub Actions currently uses it
 !backend/data/jobs.db
+backend/data/source_discovery_cache.json

@@ -1,0 +1,5 @@
+company,evidence_type,status,notes
+Kforce,official_company_page,STRONG_POSITIVE,"Official visa sponsorship page states support for H1B, F1, OPT/OPT-STEM, CPT, TN and E-Verify."
+TEKsystems,official_company_page,H1B_HISTORY_SIGNAL,Official careers page links Labor Condition Applications for H-1B nonimmigrants.
+Insight Global,official_job_board,AGENCY_JOB_SOURCE,Official public board supports consultant assignments and remote job search.
+Randstad Digital,official_job_board,AGENCY_JOB_SOURCE,Official Randstad remote IT/computer jobs pages expose permanent and contract roles.

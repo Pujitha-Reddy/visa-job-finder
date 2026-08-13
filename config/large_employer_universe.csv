@@ -1,0 +1,125 @@
+company,source_type,ats,token,careers_url,enabled,notes
+Airbnb,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Stripe,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Datadog,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Cloudflare,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+MongoDB,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Twilio,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Snowflake,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Coinbase,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Dropbox,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+GitLab,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+HashiCorp,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Confluent,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Okta,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+CrowdStrike,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+HubSpot,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Asana,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Reddit,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Discord,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Figma,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Notion,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Plaid,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Brex,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Ramp,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Rippling,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Robinhood,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Affirm,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Block,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Pinterest,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+DoorDash,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Instacart,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Lyft,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Uber,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Chime,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+SoFi,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Toast,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Samsara,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+ServiceTitan,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Scale AI,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+OpenAI,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Anthropic,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Anduril,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Palantir,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Elastic,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Grafana Labs,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+New Relic,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Sentry,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Fastly,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Zapier,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Webflow,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Vercel,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Netlify,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Retool,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Airtable,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Canva,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Miro,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Postman,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Docker,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+1Password,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+GitHub,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Atlassian,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Slack,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Salesforce,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Adobe,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Intuit,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Autodesk,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+NVIDIA,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+AMD,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Qualtrics,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Databricks,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Wayfair,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Chewy,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+CarGurus,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+DraftKings,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+FanDuel,DIRECT_EMPLOYER,CUSTOM,,,false,Large-registry seed; verify careers source and ATS before enabling.
+Perplexity,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Cognition,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Cursor,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Harvey,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Glean,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Mercor,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Runway,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+ElevenLabs,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Vanta,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Abridge,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Render,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Railway,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Supabase,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Temporal,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Clerk,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Pulley,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Mercury,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Highnote,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Modern Treasury,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Finix,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Column,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Airbyte,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+dbt Labs,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+MotherDuck,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+ClickHouse,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Neon,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Cockroach Labs,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Materialize,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Tailscale,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Modal,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Replicate,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Weights & Biases,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Hightouch,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Census,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Dagster Labs,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Astronomer,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Prefect,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Observe,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Chronosphere,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Cribl,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Honeycomb,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+LaunchDarkly,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Clari,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Gong,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Carta,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Deel,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Remote,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Lattice,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Checkr,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.
+Persona,STARTUP,CUSTOM,,,false,Startup registry seed; verify careers source and ATS before enabling.

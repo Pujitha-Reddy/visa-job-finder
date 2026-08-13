@@ -1,0 +1,3 @@
+company,source_type,ats,token,careers_url,enabled,notes
+Example Workday Company,DIRECT_EMPLOYER,WORKDAY,,https://company.wd5.myworkdayjobs.com/Careers,false,Verify tenant endpoint before enabling
+Example SmartRecruiters Company,DIRECT_EMPLOYER,SMARTRECRUITERS,companyIdentifier,,false,Verify public company identifier before enabling

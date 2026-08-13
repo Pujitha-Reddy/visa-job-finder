@@ -1,0 +1,5 @@
+company,source_type,ats,careers_url,enabled,notes
+Kforce,STAFFING_AGENCY,CUSTOM_HTML,https://www.kforce.com/search-jobs/,false,Official search page verified. Dynamic/iframe structure requires selectors or API discovery before enabling.
+Insight Global,STAFFING_AGENCY,CUSTOM_HTML,https://jobs.insightglobal.com/,false,Official public job board verified. Enable after stable selectors/API are validated.
+TEKsystems,STAFFING_AGENCY,CUSTOM_HTML,https://careers.teksystems.com/us/en/,false,Official tech job site verified. Dynamic search results require selectors/API validation.
+Randstad Digital,STAFFING_AGENCY,CUSTOM_HTML,https://www.randstadusa.com/jobs/r-computer-and-mathematical-occupations/remote/remote/,false,Official remote computer/mathematical jobs page verified. Enable after stable selectors/API validation.

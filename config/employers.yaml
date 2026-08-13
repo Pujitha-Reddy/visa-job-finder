@@ -1,0 +1,82 @@
+companies:
+- company: Chime
+  source_type: DIRECT_EMPLOYER
+  ats: greenhouse
+  token: chime
+  enabled: true
+- company: Flex
+  source_type: DIRECT_EMPLOYER
+  ats: lever
+  token: Flex
+  enabled: true
+- company: Basis
+  source_type: STARTUP
+  ats: lever
+  token: basis
+  enabled: true
+- company: Supermove
+  source_type: STARTUP
+  ats: lever
+  token: supermove
+  enabled: true
+- company: CaptivateIQ
+  source_type: STARTUP
+  ats: lever
+  token: captivateiq
+  enabled: true
+- company: Kforce
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Adecco
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: TEKsystems
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Insight Global
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Randstad Digital
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Apex Systems
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Robert Half
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Collabera
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Beacon Hill
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Antra Inc
+  source_type: CONSULTING
+  ats: CUSTOM
+  enabled: false
+- company: Experis
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Aerotek
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Kelly Services
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false
+- company: Staffmark
+  source_type: STAFFING_AGENCY
+  ats: CUSTOM
+  enabled: false

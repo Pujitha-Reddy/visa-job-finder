@@ -7,6 +7,10 @@ on:
     - cron: "17 7,10,13,16,19,22 * * *"
       timezone: "America/Chicago"
 
+concurrency:
+  group: visa-job-finder-collector
+  cancel-in-progress: false
+
 jobs:
   collect-jobs:
     runs-on: ubuntu-latest
@@ -22,27 +26,38 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
 
       - name: Install backend dependencies
         working-directory: backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install openpyxl==3.1.5
 
       - name: Collect current jobs
         working-directory: backend
         run: |
-          python -m app.collect
+          python -m app.collect_registry
 
-      - name: Enrich sponsor history
+      - name: Enrich sponsor history with V7.11 matcher
         working-directory: backend
         run: |
-          python -m app.import_sponsors --enrich
+          python -m app.enrich_sponsors_v11
 
-      - name: Recalculate scores
+      - name: Recalculate overall scores
         working-directory: backend
         run: |
-          python -m app.score_jobs
+          python - <<'PY'
+          from app.repository import recalculate_all_scores
+          print(recalculate_all_scores())
+          PY
+
+      - name: Print sponsor coverage
+        working-directory: backend
+        run: |
+          python -m app.sponsor_coverage
 
       - name: Commit updated job database
         run: |
@@ -54,6 +69,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No job database changes."
           else
-            git commit -m "Update job listings"
+            git commit -m "Update job listings and sponsor scores"
+            git pull --rebase
             git push
           fi
