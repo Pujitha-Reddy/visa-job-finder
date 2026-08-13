@@ -16,7 +16,10 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
+      contents: read
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Checkout repository
@@ -34,7 +37,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install openpyxl==3.1.5
 
       - name: Collect current jobs
         working-directory: backend
@@ -54,22 +56,12 @@ jobs:
           print(recalculate_all_scores())
           PY
 
+      - name: Sync jobs to Supabase
+        working-directory: backend
+        run: |
+          python -m app.sync_jobs_to_postgres
+
       - name: Print sponsor coverage
         working-directory: backend
         run: |
           python -m app.sponsor_coverage
-
-      - name: Commit updated job database
-        run: |
-          git config user.name "visa-job-finder-bot"
-          git config user.email "visa-job-finder-bot@users.noreply.github.com"
-
-          git add backend/data/jobs.db
-
-          if git diff --cached --quiet; then
-            echo "No job database changes."
-          else
-            git commit -m "Update job listings and sponsor scores"
-            git pull --rebase
-            git push
-          fi
