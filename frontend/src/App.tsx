@@ -1,6 +1,6 @@
 import UnifiedFilterPanel from "./UnifiedFilterPanel";
 import { useEffect, useMemo, useState } from "react";
-import { fetchStats, updateJobStatus, fetchV78Jobs } from "./api";
+import { fetchStats, updateJobStatus, fetchV78Jobs } from "./api_v80";
 import type { Filters, Job } from "./types";
 
 const defaultFilters: Filters = {
