@@ -1,0 +1,49 @@
+roles:
+  - Software Engineer
+  - Software Developer
+  - Full Stack Engineer
+  - Full Stack Developer
+  - Backend Engineer
+  - Backend Developer
+  - Frontend Engineer
+  - Frontend Developer
+  - Java Developer
+  - Java Software Engineer
+
+experience:
+  min_years: 0
+  max_years: 6
+  include_new_grad: true
+
+posting_age:
+  options_hours:
+    - 24
+    - 72
+  default_hours: 24
+
+work_arrangement:
+  remote:
+    include: true
+    decision: APPLY
+  hybrid:
+    include: true
+    decision: OK_TO_APPLY
+  onsite:
+    include: true
+    decision: NEEDS_REVIEW
+  unknown:
+    include: true
+    decision: NEEDS_REVIEW
+
+employment:
+  full_time: true
+  contract: true
+  w2: true
+  c2c: true
+  unknown: true
+
+visa:
+  include_h1b_history: true
+  include_f1_opt_signals: true
+  missing_visa_language: NEEDS_REVIEW
+  explicit_no_sponsorship: SKIP

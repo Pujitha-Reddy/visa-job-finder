@@ -1,0 +1,25 @@
+companies:
+  - company: Chime
+    ats: greenhouse
+    token: chime
+    enabled: true
+
+  - company: Flex
+    ats: lever
+    token: Flex
+    enabled: true
+
+  - company: Basis
+    ats: lever
+    token: basis
+    enabled: true
+
+  - company: Supermove
+    ats: lever
+    token: supermove
+    enabled: true
+
+  - company: CaptivateIQ
+    ats: lever
+    token: captivateiq
+    enabled: true
