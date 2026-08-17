@@ -38,28 +38,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Collect current jobs
+      - name: Run canonical job pipeline
         working-directory: backend
         run: |
-          python -m app.collect_registry
-
-      - name: Enrich sponsor history with V7.11 matcher
-        working-directory: backend
-        run: |
-          python -m app.enrich_sponsors_v11
-
-      - name: Recalculate overall scores
-        working-directory: backend
-        run: |
-          python - <<'PY'
-          from app.repository import recalculate_all_scores
-          print(recalculate_all_scores())
-          PY
-
-      - name: Sync jobs to Supabase
-        working-directory: backend
-        run: |
-          python -m app.sync_jobs_to_postgres
+          python -m app.run_pipeline_v87
 
       - name: Print sponsor coverage
         working-directory: backend

@@ -8,3 +8,10 @@ dist/
 # Track our job database because GitHub Actions currently uses it
 !backend/data/jobs.db
 backend/data/source_discovery_cache.json
+backend/data/jobs.db
+
+# Local runtime / backup files
+*.pre-ui-v1
+*.before_eligibility_fix
+backend/data/jobs.db
+frontend/tsconfig.tsbuildinfo

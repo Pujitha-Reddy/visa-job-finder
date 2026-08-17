@@ -63,6 +63,10 @@ def sync():
                 continue
 
             data = {k: v for k, v in row.items() if k in column_set}
+            # SQLite stores booleans as 0/1 integers.
+# PostgreSQL jobs.is_active is BOOLEAN.
+            if "is_active" in data and data["is_active"] is not None:
+                data["is_active"] = bool(data["is_active"])
 
             # For new rows we do not force the SQLite id into Postgres. This
             # avoids identity collisions after Supabase becomes authoritative.
@@ -106,17 +110,64 @@ def sync():
 
         pg.commit()
 
+        # ---------------------------------------------------------
+        # PRUNE STALE POSTGRES-ONLY NEW JOBS
+        # ---------------------------------------------------------
+        #
+        # SQLite is the canonical collection dataset.
+        #
+        # If a job exists in Postgres but is no longer present in
+        # SQLite, remove it ONLY when its application status is NEW.
+        #
+        # Never remove SAVED / APPLIED / INTERVIEW / REJECTED /
+        # SKIPPED jobs because those are part of application history.
+
+        sqlite_urls = {
+            row.get("source_url")
+            for row in rows
+            if row.get("source_url")
+        }
+
+        with pg.cursor() as cur:
+            cur.execute("""
+                SELECT
+                    id,
+                    source_url,
+                    application_status
+                FROM jobs
+            """)
+
+            stale_ids = []
+
+            for job_id, source_url, application_status in cur.fetchall():
+                if (
+                    source_url not in sqlite_urls
+                    and application_status == "NEW"
+                    ):
+                    stale_ids.append(job_id)
+
+            if stale_ids:
+                cur.execute(
+                    "DELETE FROM jobs WHERE id = ANY(%s)",
+                    (stale_ids,),
+                )
+
+            stale_deleted = len(stale_ids)
+
+        pg.commit()
+
         with pg.cursor() as cur:
             cur.execute("SELECT COUNT(*) FROM jobs")
-            pg_total = cur.fetchone()[0]
+            total = cur.fetchone()[0]
 
     return {
-        "sqlite_jobs_seen": len(rows),
-        "postgres_inserted": inserted,
-        "postgres_updated": updated,
-        "skipped": skipped,
-        "postgres_total_jobs": pg_total,
-    }
+    "sqlite_jobs_seen": len(rows),
+    "postgres_inserted": inserted,
+    "postgres_updated": updated,
+    "skipped": skipped,
+    "stale_new_deleted": stale_deleted,
+    "postgres_total_jobs": total,
+}
 
 if __name__ == "__main__":
     print(sync())

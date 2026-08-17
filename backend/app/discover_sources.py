@@ -78,7 +78,26 @@ def probe_workable(token):
         return {"ats":"WORKABLE","token":token,"jobs":len(data["jobs"])}
     return None
 
-PROBES = [probe_greenhouse, probe_lever, probe_ashby, probe_workable]
+def probe_smartrecruiters(token):
+    data = _get_json(
+        f"https://api.smartrecruiters.com/v1/companies/{token}/postings",
+        {"limit": 1, "offset": 0, "destination": "PUBLIC"},
+    )
+
+    if (
+        isinstance(data, dict)
+        and isinstance(data.get("content"), list)
+        and int(data.get("totalFound") or 0) > 0
+    ):
+        return {
+            "ats": "SMARTRECRUITERS",
+            "token": token,
+            "jobs": int(data.get("totalFound") or len(data["content"])),
+        }
+
+    return None
+
+PROBES = [probe_greenhouse, probe_lever, probe_ashby, probe_workable, probe_smartrecruiters]
 
 def discover_for_company(company, cache, pause=0.10):
     key = company.lower()

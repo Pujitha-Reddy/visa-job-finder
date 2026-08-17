@@ -1,0 +1,132 @@
+company,priority_tier,industry,source_type,careers_url,ats,token,enabled,sponsor_priority
+Amazon,1,Cloud/Commerce,DIRECT_EMPLOYER,https://www.amazon.jobs/en/,AMAZON,5,1,HIGH
+Microsoft,1,Cloud/Software,DIRECT_EMPLOYER,https://jobs.careers.microsoft.com/,CUSTOM,,0,HIGH
+Google,1,Internet/Cloud,DIRECT_EMPLOYER,https://www.google.com/about/careers/applications/jobs/results/,CUSTOM,,0,HIGH
+Meta,1,Internet/AI,DIRECT_EMPLOYER,https://www.metacareers.com/jobs/,CUSTOM,,0,HIGH
+Apple,1,Consumer Technology,DIRECT_EMPLOYER,https://jobs.apple.com/en-us/search,CUSTOM,,0,HIGH
+NVIDIA,1,AI/Semiconductors,DIRECT_EMPLOYER,https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite,WORKDAY,,0,HIGH
+Salesforce,1,Enterprise SaaS,DIRECT_EMPLOYER,https://careers.salesforce.com/,CUSTOM,,0,HIGH
+ServiceNow,1,Enterprise SaaS,DIRECT_EMPLOYER,https://careers.servicenow.com/,SMARTRECRUITERS,,0,HIGH
+Oracle,1,Cloud/Database,DIRECT_EMPLOYER,https://careers.oracle.com/,CUSTOM,,0,HIGH
+Adobe,1,Software,DIRECT_EMPLOYER,https://careers.adobe.com/,CUSTOM,,0,HIGH
+Cisco,1,Networking/Cloud,DIRECT_EMPLOYER,https://jobs.cisco.com/,CUSTOM,,0,HIGH
+IBM,1,Enterprise Technology,DIRECT_EMPLOYER,https://www.ibm.com/careers/search,CUSTOM,,0,HIGH
+Intuit,1,Fintech,DIRECT_EMPLOYER,https://jobs.intuit.com/,CUSTOM,,0,HIGH
+PayPal,1,Payments/Fintech,DIRECT_EMPLOYER,https://paypal.eightfold.ai/careers,CUSTOM,,0,HIGH
+Uber,1,Mobility,DIRECT_EMPLOYER,https://www.uber.com/us/en/careers/list/,CUSTOM,,0,HIGH
+DoorDash,1,Delivery/Commerce,DIRECT_EMPLOYER,https://careersatdoordash.com/,CUSTOM,,0,HIGH
+LinkedIn,1,Professional Network,DIRECT_EMPLOYER,https://www.linkedin.com/jobs/,CUSTOM,,0,HIGH
+Workday,1,Enterprise SaaS,DIRECT_EMPLOYER,https://workday.wd5.myworkdayjobs.com/Workday,WORKDAY,,0,HIGH
+Zoom,1,Communications,DIRECT_EMPLOYER,https://careers.zoom.us/,CUSTOM,,0,MEDIUM
+DocuSign,1,SaaS,DIRECT_EMPLOYER,https://careers.docusign.com/,CUSTOM,,0,MEDIUM
+Box,1,Cloud Content,DIRECT_EMPLOYER,https://careers.box.com/,CUSTOM,,0,MEDIUM
+Palo Alto Networks,1,Cybersecurity,DIRECT_EMPLOYER,https://jobs.paloaltonetworks.com/,CUSTOM,,0,HIGH
+CrowdStrike,1,Cybersecurity,DIRECT_EMPLOYER,https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers,WORKDAY,,0,HIGH
+Zscaler,1,Cybersecurity,DIRECT_EMPLOYER,https://jobs.smartrecruiters.com/Zscaler,SMARTRECRUITERS,Zscaler,0,HIGH
+Capital One,1,Financial Services,DIRECT_EMPLOYER,https://www.capitalonecareers.com/,CUSTOM,,0,HIGH
+JPMorgan Chase,1,Financial Services,DIRECT_EMPLOYER,https://careers.jpmorgan.com/,CUSTOM,,0,HIGH
+Visa,1,Payments,DIRECT_EMPLOYER,https://jobs.smartrecruiters.com/Visa,SMARTRECRUITERS,Visa,0,HIGH
+Mastercard,1,Payments,DIRECT_EMPLOYER,https://careers.mastercard.com/,CUSTOM,,0,HIGH
+American Express,1,Financial Services,DIRECT_EMPLOYER,https://aexp.eightfold.ai/careers,CUSTOM,,0,HIGH
+Goldman Sachs,1,Financial Services,DIRECT_EMPLOYER,https://higher.gs.com/,CUSTOM,,0,HIGH
+Morgan Stanley,1,Financial Services,DIRECT_EMPLOYER,https://morganstanley.eightfold.ai/careers,CUSTOM,,0,HIGH
+Bank of America,1,Financial Services,DIRECT_EMPLOYER,https://careers.bankofamerica.com/,CUSTOM,,0,HIGH
+Wells Fargo,1,Financial Services,DIRECT_EMPLOYER,https://www.wellsfargojobs.com/,CUSTOM,,0,HIGH
+Citi,1,Financial Services,DIRECT_EMPLOYER,https://jobs.citi.com/,CUSTOM,,0,HIGH
+Fidelity,1,Financial Services,DIRECT_EMPLOYER,https://jobs.fidelity.com/,CUSTOM,,0,HIGH
+Charles Schwab,1,Financial Services,DIRECT_EMPLOYER,https://www.schwabjobs.com/,CUSTOM,,0,MEDIUM
+Discover,1,Financial Services,DIRECT_EMPLOYER,https://jobs.discover.com/,CUSTOM,,0,MEDIUM
+PNC,1,Financial Services,DIRECT_EMPLOYER,https://careers.pnc.com/,CUSTOM,,0,MEDIUM
+U.S. Bank,1,Financial Services,DIRECT_EMPLOYER,https://careers.usbank.com/,CUSTOM,,0,MEDIUM
+Walmart Global Tech,1,Retail Technology,DIRECT_EMPLOYER,https://careers.walmart.com/technology,CUSTOM,,0,HIGH
+Target,2,Retail,DIRECT_EMPLOYER,https://jobs.target.com/,CUSTOM,,0,MEDIUM
+Home Depot,2,Retail,DIRECT_EMPLOYER,https://careers.homedepot.com/,CUSTOM,,0,MEDIUM
+Lowe's,2,Retail,DIRECT_EMPLOYER,https://talent.lowes.com/,CUSTOM,,0,MEDIUM
+Costco,2,Retail,DIRECT_EMPLOYER,https://www.costco.com/careers.html,CUSTOM,,0,MEDIUM
+CVS Health,2,Healthcare,DIRECT_EMPLOYER,https://jobs.cvshealth.com/,CUSTOM,,0,MEDIUM
+UnitedHealth Group,2,Healthcare,DIRECT_EMPLOYER,https://careers.unitedhealthgroup.com/,CUSTOM,,0,HIGH
+Optum,2,Healthcare,DIRECT_EMPLOYER,https://careers.unitedhealthgroup.com/,CUSTOM,,0,HIGH
+Centene,2,Healthcare,DIRECT_EMPLOYER,https://jobs.centene.com/,CUSTOM,,0,MEDIUM
+Cigna,2,Healthcare,DIRECT_EMPLOYER,https://jobs.thecignagroup.com/,CUSTOM,,0,MEDIUM
+Evernorth,2,Healthcare,DIRECT_EMPLOYER,https://jobs.thecignagroup.com/,CUSTOM,,0,MEDIUM
+Elevance Health,2,Healthcare,DIRECT_EMPLOYER,https://careers.elevancehealth.com/,CUSTOM,,0,MEDIUM
+Humana,2,Healthcare,DIRECT_EMPLOYER,https://careers.humana.com/,CUSTOM,,0,MEDIUM
+Comcast,2,Telecom,DIRECT_EMPLOYER,https://jobs.comcast.com/,CUSTOM,,0,MEDIUM
+Verizon,2,Telecom,DIRECT_EMPLOYER,https://mycareer.verizon.com/,CUSTOM,,0,MEDIUM
+AT&T,2,Telecom,DIRECT_EMPLOYER,https://www.att.jobs/,CUSTOM,,0,MEDIUM
+T-Mobile,2,Telecom,DIRECT_EMPLOYER,https://careers.t-mobile.com/,CUSTOM,,0,MEDIUM
+Ford,2,Automotive,DIRECT_EMPLOYER,https://efds.fa.em5.oraclecloud.com/hcmUI/CandidateExperience/,CUSTOM,,0,MEDIUM
+General Motors,2,Automotive,DIRECT_EMPLOYER,https://search-careers.gm.com/,CUSTOM,,0,MEDIUM
+Tesla,2,Automotive/Energy,DIRECT_EMPLOYER,https://www.tesla.com/careers/search,CUSTOM,,0,MEDIUM
+Rivian,2,Automotive,DIRECT_EMPLOYER,https://careers.rivian.com/,CUSTOM,,0,MEDIUM
+Boeing,2,Aerospace,DIRECT_EMPLOYER,https://jobs.boeing.com/,CUSTOM,,0,MEDIUM
+RTX,2,Aerospace/Defense,DIRECT_EMPLOYER,https://careers.rtx.com/,CUSTOM,,0,MEDIUM
+Honeywell,2,Industrial Tech,DIRECT_EMPLOYER,https://careers.honeywell.com/,CUSTOM,,0,MEDIUM
+GE Aerospace,2,Aerospace,DIRECT_EMPLOYER,https://careers.geaerospace.com/,CUSTOM,,0,MEDIUM
+Caterpillar,2,Industrial,DIRECT_EMPLOYER,https://careers.caterpillar.com/,CUSTOM,,0,MEDIUM
+John Deere,2,Industrial Tech,DIRECT_EMPLOYER,https://jobs.deere.com/,CUSTOM,,0,MEDIUM
+FedEx,2,Logistics,DIRECT_EMPLOYER,https://careers.fedex.com/,CUSTOM,,0,MEDIUM
+UPS,2,Logistics,DIRECT_EMPLOYER,https://www.jobs-ups.com/,CUSTOM,,0,MEDIUM
+OpenAI,2,AI,DIRECT_EMPLOYER,,ASHBY,openai,1,HIGH
+Anthropic,2,AI,DIRECT_EMPLOYER,,GREENHOUSE,anthropic,1,HIGH
+Databricks,2,Data/AI,DIRECT_EMPLOYER,,GREENHOUSE,databricks,1,HIGH
+Stripe,2,Fintech,DIRECT_EMPLOYER,,GREENHOUSE,stripe,1,HIGH
+Snowflake,2,Cloud Data,DIRECT_EMPLOYER,,ASHBY,snowflake,1,HIGH
+MongoDB,2,Database,DIRECT_EMPLOYER,,GREENHOUSE,mongodb,1,HIGH
+Cloudflare,2,Cloud/Security,DIRECT_EMPLOYER,,GREENHOUSE,cloudflare,1,HIGH
+Datadog,2,Observability,DIRECT_EMPLOYER,,GREENHOUSE,datadog,1,HIGH
+Twilio,2,Cloud Communications,DIRECT_EMPLOYER,,GREENHOUSE,twilio,1,HIGH
+Okta,2,Security,DIRECT_EMPLOYER,,GREENHOUSE,okta,1,HIGH
+Reddit,2,Internet,DIRECT_EMPLOYER,,GREENHOUSE,reddit,1,HIGH
+Pinterest,2,Internet,DIRECT_EMPLOYER,,GREENHOUSE,pinterest,1,HIGH
+Airbnb,2,Travel Tech,DIRECT_EMPLOYER,,GREENHOUSE,airbnb,1,HIGH
+Affirm,2,Fintech,DIRECT_EMPLOYER,,GREENHOUSE,affirm,1,HIGH
+Robinhood,2,Fintech,DIRECT_EMPLOYER,,GREENHOUSE,robinhood,1,HIGH
+Chime,2,Fintech,DIRECT_EMPLOYER,,GREENHOUSE,chime,1,HIGH
+Plaid,2,Fintech,DIRECT_EMPLOYER,,ASHBY,plaid,1,HIGH
+Block,2,Fintech,DIRECT_EMPLOYER,,GREENHOUSE,block,1,HIGH
+Coinbase,2,Fintech/Crypto,DIRECT_EMPLOYER,,GREENHOUSE,coinbase,1,HIGH
+Figma,3,Design SaaS,DIRECT_EMPLOYER,,GREENHOUSE,figma,1,MEDIUM
+Asana,3,Productivity,DIRECT_EMPLOYER,,GREENHOUSE,asana,1,MEDIUM
+GitLab,3,Developer Tools,DIRECT_EMPLOYER,,GREENHOUSE,gitlab,1,MEDIUM
+Elastic,3,Search/Observability,DIRECT_EMPLOYER,,GREENHOUSE,elastic,1,MEDIUM
+Palantir,3,Data/Defense,DIRECT_EMPLOYER,,LEVER,palantir,1,HIGH
+Scale AI,3,AI,DIRECT_EMPLOYER,,GREENHOUSE,scaleai,1,HIGH
+Samsara,3,IoT/SaaS,DIRECT_EMPLOYER,,GREENHOUSE,samsara,1,MEDIUM
+Toast,3,SaaS/Fintech,DIRECT_EMPLOYER,,GREENHOUSE,toast,1,MEDIUM
+Brex,3,Fintech,DIRECT_EMPLOYER,,GREENHOUSE,brex,1,MEDIUM
+Notion,3,Productivity,DIRECT_EMPLOYER,,ASHBY,notion,1,MEDIUM
+Vercel,3,Developer Platform,DIRECT_EMPLOYER,,GREENHOUSE,vercel,1,MEDIUM
+Docker,3,Developer Platform,DIRECT_EMPLOYER,,ASHBY,docker,1,MEDIUM
+Dropbox,3,Cloud Storage,DIRECT_EMPLOYER,,GREENHOUSE,dropbox,1,MEDIUM
+Grafana Labs,3,Observability,DIRECT_EMPLOYER,,GREENHOUSE,grafanalabs,1,MEDIUM
+New Relic,3,Observability,DIRECT_EMPLOYER,,GREENHOUSE,newrelic,1,MEDIUM
+HashiCorp,3,Cloud Infrastructure,DIRECT_EMPLOYER,https://www.hashicorp.com/careers,CUSTOM,,0,MEDIUM
+Atlassian,3,Developer/Productivity,DIRECT_EMPLOYER,https://www.atlassian.com/company/careers,CUSTOM,,0,MEDIUM
+HubSpot,3,SaaS,DIRECT_EMPLOYER,https://www.hubspot.com/careers/jobs,CUSTOM,,0,MEDIUM
+Cursor,4,AI Developer Tools,STARTUP,,ASHBY,cursor,1,MEDIUM
+Harvey,4,AI,STARTUP,,ASHBY,harvey,1,MEDIUM
+Perplexity,4,AI,STARTUP,,ASHBY,perplexity,1,MEDIUM
+Ramp,4,Fintech,STARTUP,,ASHBY,ramp,1,MEDIUM
+Mercury,4,Fintech,STARTUP,,GREENHOUSE,mercury,1,MEDIUM
+ElevenLabs,4,AI,STARTUP,,ASHBY,elevenlabs,1,MEDIUM
+Abridge,4,Healthcare AI,STARTUP,,ASHBY,abridge,1,MEDIUM
+Render,4,Cloud,STARTUP,,ASHBY,render,1,MEDIUM
+Supabase,4,Developer Platform,STARTUP,,ASHBY,supabase,1,MEDIUM
+Sentry,4,Developer Tools,STARTUP,,ASHBY,sentry,1,MEDIUM
+Temporal,4,Developer Infrastructure,STARTUP,,ASHBY,temporal,1,MEDIUM
+Vanta,4,Security SaaS,STARTUP,,ASHBY,vanta,1,MEDIUM
+Hightouch,4,Data SaaS,STARTUP,,GREENHOUSE,hightouch,1,MEDIUM
+Modern Treasury,4,Fintech Infrastructure,STARTUP,,ASHBY,moderntreasury,1,MEDIUM
+Neon,4,Database,STARTUP,,ASHBY,neon,1,MEDIUM
+Postman,4,Developer Tools,DIRECT_EMPLOYER,,GREENHOUSE,postman,1,MEDIUM
+Persona,4,Identity,STARTUP,,ASHBY,persona,1,MEDIUM
+Cribl,4,Observability,STARTUP,,GREENHOUSE,cribl,1,MEDIUM
+Tailscale,4,Networking,STARTUP,,GREENHOUSE,tailscale,1,MEDIUM
+Webflow,4,Website Platform,STARTUP,,GREENHOUSE,webflow,1,MEDIUM
+Airtable,4,Productivity,STARTUP,,GREENHOUSE,airtable,1,MEDIUM
+Carta,4,Fintech,STARTUP,,GREENHOUSE,carta,1,MEDIUM
+Checkr,4,HR Tech,STARTUP,,GREENHOUSE,checkr,1,MEDIUM
+LaunchDarkly,4,Developer Tools,STARTUP,,GREENHOUSE,launchdarkly,1,MEDIUM
+Astronomer,4,Data Infrastructure,STARTUP,,ASHBY,astronomer,1,MEDIUM
+1Password,4,Security,STARTUP,,ASHBY,1password,1,MEDIUM

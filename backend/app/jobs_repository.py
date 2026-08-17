@@ -37,9 +37,22 @@ CREATE TABLE IF NOT EXISTS jobs (
     date_applied TEXT,
     notes TEXT
 );
-
-CREATE INDEX IF NOT EXISTS idx_jobs_posted_at ON jobs(posted_at);
 """
+
+V84_COLUMNS = {
+    "visa_detail_status": "TEXT",
+    "employment_detail_type": "TEXT",
+    "agency_name": "TEXT",
+    "end_client": "TEXT",
+    "source_published_at": "TEXT",
+    "source_updated_at": "TEXT",
+    "effective_posted_at": "TEXT",
+    "freshness_confidence": "TEXT",
+    "freshness_source": "TEXT",
+    "source_confidence_score": "REAL DEFAULT 0",
+    "source_confidence_label": "TEXT",
+    "dedupe_key": "TEXT",
+}
 
 def _conn():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -51,28 +64,80 @@ def init_jobs():
     with _conn() as conn:
         conn.executescript(JOB_SCHEMA)
         cols = {r["name"] for r in conn.execute("PRAGMA table_info(jobs)").fetchall()}
-        if "visa_detail_status" not in cols:
-            conn.execute("ALTER TABLE jobs ADD COLUMN visa_detail_status TEXT")
-        if "employment_detail_type" not in cols:
-            conn.execute("ALTER TABLE jobs ADD COLUMN employment_detail_type TEXT")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_visa_detail_status ON jobs(visa_detail_status)")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_employment_detail_type ON jobs(employment_detail_type)")
+        for name, typ in V84_COLUMNS.items():
+            if name not in cols:
+                conn.execute(f"ALTER TABLE jobs ADD COLUMN {name} {typ}")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_posted_at ON jobs(posted_at)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_dedupe_key ON jobs(dedupe_key)")
         conn.commit()
+
+def _existing_for_job(conn, job):
+    row = conn.execute(
+        "SELECT * FROM jobs WHERE source_url=?",
+        (job["source_url"],),
+    ).fetchone()
+    if row:
+        return row
+
+    key = job.get("dedupe_key")
+    if key:
+        return conn.execute(
+            "SELECT * FROM jobs WHERE dedupe_key=? ORDER BY id LIMIT 1",
+            (key,),
+        ).fetchone()
+    return None
+
+def _should_replace_source(existing, job):
+    old_direct = (existing["source_type"] or "") == "DIRECT_EMPLOYER"
+    new_direct = (job.get("source_type") or "") == "DIRECT_EMPLOYER"
+
+    if old_direct and not new_direct:
+        return False
+    if new_direct and not old_direct:
+        return True
+
+    old_fresh = (existing["freshness_confidence"] or "") == "HIGH"
+    new_fresh = (job.get("freshness_confidence") or "") == "HIGH"
+
+    if old_fresh and not new_fresh:
+        return False
+    if new_fresh and not old_fresh:
+        return True
+
+    return False
 
 def upsert_job(job: dict) -> str:
     init_jobs()
+
     fields = [
         "external_id","source","source_url","apply_url","company_name_raw",
         "source_type","ats","title","description","location_raw","posted_at",
         "min_experience_years","max_experience_years","experience_text",
-        "experience_match","experience_band","work_arrangement","employment_type","employment_detail_type",
-        "visa_language_status","visa_detail_status","visa_evidence_text","decision","decision_reason","agency_name","end_client"
+        "experience_match","experience_band","work_arrangement","employment_type",
+        "employment_detail_type","visa_language_status","visa_detail_status",
+        "visa_evidence_text","decision","decision_reason","agency_name","end_client",
+        "source_published_at","source_updated_at","effective_posted_at",
+        "freshness_confidence","freshness_source","source_confidence_score",
+        "source_confidence_label","dedupe_key",
     ]
+
     with _conn() as conn:
-        existing = conn.execute("SELECT id FROM jobs WHERE source_url=?", (job["source_url"],)).fetchone()
+        existing = _existing_for_job(conn, job)
+
         if existing:
-            assignments = ", ".join(f"{f}=?" for f in fields if f != "source_url")
-            vals = [job.get(f) for f in fields if f != "source_url"]
+            # If this is a semantic duplicate from another source, prefer the better
+            # source. Never overwrite Saved/Applied/etc.
+            if existing["source_url"] != job["source_url"] and not _should_replace_source(existing, job):
+                conn.execute(
+                    "UPDATE jobs SET last_seen_at=CURRENT_TIMESTAMP WHERE id=?",
+                    (existing["id"],),
+                )
+                conn.commit()
+                return "UPDATED"
+
+            assignments = ", ".join(f"{f}=?" for f in fields)
+            vals = [job.get(f) for f in fields]
+
             conn.execute(
                 f"UPDATE jobs SET {assignments}, last_seen_at=CURRENT_TIMESTAMP WHERE id=?",
                 vals + [existing["id"]],
