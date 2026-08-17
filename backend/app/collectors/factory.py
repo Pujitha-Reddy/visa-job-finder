@@ -11,7 +11,6 @@ from .teksystems import TEKsystemsCollector
 from .randstad import RandstadCollector
 from .robert_half import RobertHalfCollector
 from .amazon import AmazonCollector
-from .zoom import ZoomCollector
 
 COLLECTORS = {
     "GREENHOUSE": GreenhouseCollector(),
@@ -27,7 +26,6 @@ COLLECTORS = {
     "RANDSTAD": RandstadCollector(),
     "ROBERT_HALF": RobertHalfCollector(),
     "AMAZON": AmazonCollector(),
-    "ZOOM": ZoomCollector(),
 }
 
 def get_collector(ats):
