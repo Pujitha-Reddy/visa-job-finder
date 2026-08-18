@@ -38,12 +38,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Bootstrap runner database
+        working-directory: backend
+        run: |
+          python -m app.bootstrap_ci
+
       - name: Run canonical job pipeline
         working-directory: backend
+        env:
+          SKIP_STALE_DELETE: "1"
         run: |
           python -m app.run_pipeline_v87
 
       - name: Print sponsor coverage
         working-directory: backend
         run: |
-          python -m app.sponsor_coverage
+          python -m app.sponsor_coverage\n

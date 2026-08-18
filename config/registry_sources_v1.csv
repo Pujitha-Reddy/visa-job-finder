@@ -1,0 +1,126 @@
+company,source_type,careers_url,ats,token,notes
+1Password,STARTUP,,ASHBY,1password,Auto-discovered by successful public ATS API probe.
+Abridge,STARTUP,,ASHBY,abridge,Auto-discovered by successful public ATS API probe.
+Affirm,DIRECT_EMPLOYER,,GREENHOUSE,affirm,Auto-discovered by successful public ATS API probe.
+Airbnb,DIRECT_EMPLOYER,,GREENHOUSE,airbnb,Auto-discovered by successful public ATS API probe.
+Airbyte,STARTUP,,ASHBY,airbyte,Auto-discovered by successful public ATS API probe.
+Airtable,STARTUP,,GREENHOUSE,airtable,Auto-discovered by successful public ATS API probe.
+Amazon,DIRECT_EMPLOYER,https://www.amazon.jobs/en/,AMAZON,5,V8.5.1 tier=1; industry=Cloud/Commerce; sponsor_priority=HIGH
+Amazon,DIRECT_EMPLOYER,https://www.amazon.jobs/en/search,AMAZON,5,V8.5 official Amazon Jobs collector
+Anthropic,DIRECT_EMPLOYER,,GREENHOUSE,anthropic,Auto-discovered by successful public ATS API probe.
+Antra Inc,CONSULTING,,SMARTRECRUITERS,antrainc,Auto-discovered by successful public ATS API probe.
+Asana,DIRECT_EMPLOYER,,GREENHOUSE,asana,Auto-discovered by successful public ATS API probe.
+Astronomer,STARTUP,,ASHBY,astronomer,Auto-discovered by successful public ATS API probe.
+BCforward,STAFFING_AGENCY,,SMARTRECRUITERS,bcforward,Auto-discovered by successful public ATS API probe.
+Basis,STARTUP,,LEVER,basis,Auto-discovered by successful public ATS API probe.
+Block,DIRECT_EMPLOYER,,GREENHOUSE,block,Auto-discovered by successful public ATS API probe.
+Brex,DIRECT_EMPLOYER,,GREENHOUSE,brex,Auto-discovered by successful public ATS API probe.
+Canva,DIRECT_EMPLOYER,,SMARTRECRUITERS,canva,Auto-discovered by successful public ATS API probe.
+CaptivateIQ,STARTUP,,LEVER,captivateiq,Auto-discovered by successful public ATS API probe.
+CarGurus,DIRECT_EMPLOYER,,GREENHOUSE,cargurus,Auto-discovered by successful public ATS API probe.
+Carta,STARTUP,,GREENHOUSE,carta,Auto-discovered by successful public ATS API probe.
+Checkr,STARTUP,,GREENHOUSE,checkr,Auto-discovered by successful public ATS API probe.
+Chime,DIRECT_EMPLOYER,,GREENHOUSE,chime,Auto-discovered by successful public ATS API probe.
+ClickHouse,STARTUP,,ASHBY,clickhouse,Auto-discovered by successful public ATS API probe.
+ClickHouse,STARTUP,,GREENHOUSE,clickhouse,Auto-discovered by successful public ATS API probe.
+Cloudflare,DIRECT_EMPLOYER,,GREENHOUSE,cloudflare,Auto-discovered by successful public ATS API probe.
+Cockroach Labs,STARTUP,,GREENHOUSE,cockroachlabs,Auto-discovered by successful public ATS API probe.
+Cognition,STARTUP,,ASHBY,cognition,Auto-discovered by successful public ATS API probe.
+Coinbase,DIRECT_EMPLOYER,,GREENHOUSE,coinbase,Auto-discovered by successful public ATS API probe.
+Column,STARTUP,,ASHBY,column,Auto-discovered by successful public ATS API probe.
+Confluent,DIRECT_EMPLOYER,,ASHBY,confluent,Auto-discovered by successful public ATS API probe.
+Cribl,STARTUP,,GREENHOUSE,cribl,Auto-discovered by successful public ATS API probe.
+CrowdStrike,DIRECT_EMPLOYER,https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers,WORKDAY,,Large-registry seed; verify careers source and ATS before enabling. | V8.7 verified Workday public career-site endpoint.
+Cursor,STARTUP,,ASHBY,cursor,Auto-discovered by successful public ATS API probe.
+Databricks,DIRECT_EMPLOYER,,GREENHOUSE,databricks,Auto-discovered by successful public ATS API probe.
+Datadog,DIRECT_EMPLOYER,,GREENHOUSE,datadog,Auto-discovered by successful public ATS API probe.
+Discord,DIRECT_EMPLOYER,,GREENHOUSE,discord,Auto-discovered by successful public ATS API probe.
+Docker,DIRECT_EMPLOYER,,ASHBY,docker,Auto-discovered by successful public ATS API probe.
+Dropbox,DIRECT_EMPLOYER,,GREENHOUSE,dropbox,Auto-discovered by successful public ATS API probe.
+Elastic,DIRECT_EMPLOYER,,GREENHOUSE,elastic,Auto-discovered by successful public ATS API probe.
+ElevenLabs,STARTUP,,ASHBY,elevenlabs,Auto-discovered by successful public ATS API probe.
+FanDuel,DIRECT_EMPLOYER,,GREENHOUSE,fanduel,Auto-discovered by successful public ATS API probe.
+Fastly,DIRECT_EMPLOYER,,GREENHOUSE,fastly,Auto-discovered by successful public ATS API probe.
+Figma,DIRECT_EMPLOYER,,GREENHOUSE,figma,Auto-discovered by successful public ATS API probe.
+Finix,STARTUP,,LEVER,finix,Auto-discovered by successful public ATS API probe.
+Flex,DIRECT_EMPLOYER,,GREENHOUSE,flex,Auto-discovered by successful public ATS API probe.
+Flex,DIRECT_EMPLOYER,,LEVER,Flex,
+GitLab,DIRECT_EMPLOYER,,GREENHOUSE,gitlab,Auto-discovered by successful public ATS API probe.
+Glean,STARTUP,,SMARTRECRUITERS,glean,Auto-discovered by successful public ATS API probe.
+Gong,STARTUP,,SMARTRECRUITERS,gong,Auto-discovered by successful public ATS API probe.
+Grafana Labs,DIRECT_EMPLOYER,,GREENHOUSE,grafanalabs,Auto-discovered by successful public ATS API probe.
+Harvey,STARTUP,,ASHBY,harvey,Auto-discovered by successful public ATS API probe.
+Highnote,STARTUP,,GREENHOUSE,highnote,Auto-discovered by successful public ATS API probe.
+Hightouch,STARTUP,,ASHBY,hightouch,Auto-discovered by successful public ATS API probe.
+Hightouch,STARTUP,,GREENHOUSE,hightouch,Auto-discovered by successful public ATS API probe.
+Honeycomb,STARTUP,,GREENHOUSE,honeycomb,Auto-discovered by successful public ATS API probe.
+Horizontal Talent,STAFFING_AGENCY,,SMARTRECRUITERS,horizontaltalent,Auto-discovered by successful public ATS API probe.
+Insight Global,STAFFING_AGENCY,https://jobs.insightglobal.com/jobs/find_a_job/?miles=False&remote=true&srch=remote,INSIGHT_GLOBAL,,V7.7 verified public Insight Global job-board collector.
+Instacart,DIRECT_EMPLOYER,,GREENHOUSE,instacart,Auto-discovered by successful public ATS API probe.
+Lattice,STARTUP,,GREENHOUSE,lattice,Auto-discovered by successful public ATS API probe.
+LaunchDarkly,STARTUP,,GREENHOUSE,launchdarkly,Auto-discovered by successful public ATS API probe.
+LinkedIn,DIRECT_EMPLOYER,https://www.linkedin.com/jobs/,GREENHOUSE,linkedin,Auto-discovered by successful public ATS API probe.
+LinkedIn,DIRECT_EMPLOYER,https://www.linkedin.com/jobs/,LEVER,linkedin,Auto-discovered by successful public ATS API probe.
+Lyft,DIRECT_EMPLOYER,,GREENHOUSE,lyft,Auto-discovered by successful public ATS API probe.
+Materialize,STARTUP,,ASHBY,materialize,Auto-discovered by successful public ATS API probe.
+Mercor,STARTUP,,ASHBY,mercor,Auto-discovered by successful public ATS API probe.
+Mercury,STARTUP,,GREENHOUSE,mercury,Auto-discovered by successful public ATS API probe.
+Miro,DIRECT_EMPLOYER,,ASHBY,miro,Auto-discovered by successful public ATS API probe.
+Modal,STARTUP,,ASHBY,modal,Auto-discovered by successful public ATS API probe.
+Modern Treasury,STARTUP,,ASHBY,moderntreasury,Auto-discovered by successful public ATS API probe.
+MongoDB,DIRECT_EMPLOYER,,GREENHOUSE,mongodb,Auto-discovered by successful public ATS API probe.
+MotherDuck,STARTUP,,ASHBY,motherduck,Auto-discovered by successful public ATS API probe.
+NVIDIA,DIRECT_EMPLOYER,https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite,WORKDAY,,Large-registry seed; verify careers source and ATS before enabling. | V8.7 verified Workday public career-site endpoint.
+Neon,STARTUP,,ASHBY,neon,Auto-discovered by successful public ATS API probe.
+Neon,STARTUP,,LEVER,neon,Auto-discovered by successful public ATS API probe.
+Netlify,DIRECT_EMPLOYER,,GREENHOUSE,netlify,Auto-discovered by successful public ATS API probe.
+New Relic,DIRECT_EMPLOYER,,GREENHOUSE,newrelic,Auto-discovered by successful public ATS API probe.
+New Relic,DIRECT_EMPLOYER,,SMARTRECRUITERS,newrelic,Auto-discovered by successful public ATS API probe.
+Notion,DIRECT_EMPLOYER,,ASHBY,notion,Auto-discovered by successful public ATS API probe.
+Okta,DIRECT_EMPLOYER,,GREENHOUSE,okta,Auto-discovered by successful public ATS API probe.
+OpenAI,DIRECT_EMPLOYER,,ASHBY,openai,Auto-discovered by successful public ATS API probe.
+Palantir,DIRECT_EMPLOYER,,LEVER,palantir,Auto-discovered by successful public ATS API probe.
+Palantir,DIRECT_EMPLOYER,,SMARTRECRUITERS,palantir,Auto-discovered by successful public ATS API probe.
+Perplexity,STARTUP,,ASHBY,perplexity,Auto-discovered by successful public ATS API probe.
+Persona,STARTUP,,ASHBY,persona,Auto-discovered by successful public ATS API probe.
+Pinterest,DIRECT_EMPLOYER,,GREENHOUSE,pinterest,Auto-discovered by successful public ATS API probe.
+Plaid,DIRECT_EMPLOYER,,ASHBY,plaid,Auto-discovered by successful public ATS API probe.
+Postman,DIRECT_EMPLOYER,,GREENHOUSE,postman,Auto-discovered by successful public ATS API probe.
+Prefect,STARTUP,,ASHBY,prefect,Auto-discovered by successful public ATS API probe.
+Qualtrics,DIRECT_EMPLOYER,,GREENHOUSE,qualtrics,Auto-discovered by successful public ATS API probe.
+Railway,STARTUP,,ASHBY,railway,Auto-discovered by successful public ATS API probe.
+Ramp,STARTUP,,ASHBY,ramp,Auto-discovered by successful public ATS API probe.
+Randstad Digital,STAFFING_AGENCY,https://www.randstadusa.com/jobs/q-software-engineer/remote/,RANDSTAD,,V7.8 official Randstad USA remote software-job collector.
+Reddit,DIRECT_EMPLOYER,,GREENHOUSE,reddit,Auto-discovered by successful public ATS API probe.
+Remote,STARTUP,,GREENHOUSE,remote,Auto-discovered by successful public ATS API probe.
+Render,STARTUP,,ASHBY,render,Auto-discovered by successful public ATS API probe.
+Robert Half,STAFFING_AGENCY,https://www.roberthalf.com/us/en/jobs/all/software-engineer?remote=Yes,ROBERT_HALF,,V7.8 official Robert Half remote software-job collector.
+Robinhood,DIRECT_EMPLOYER,,GREENHOUSE,robinhood,Auto-discovered by successful public ATS API probe.
+Runway,STARTUP,,ASHBY,runway,Auto-discovered by successful public ATS API probe.
+Samsara,DIRECT_EMPLOYER,,GREENHOUSE,samsara,Auto-discovered by successful public ATS API probe.
+Saxon Global,STAFFING_AGENCY,,SMARTRECRUITERS,saxonglobal,Auto-discovered by successful public ATS API probe.
+Scale AI,DIRECT_EMPLOYER,,GREENHOUSE,scaleai,Auto-discovered by successful public ATS API probe.
+Sentry,STARTUP,,ASHBY,sentry,Auto-discovered by successful public ATS API probe.
+ServiceNow,DIRECT_EMPLOYER,https://careers.servicenow.com/,SMARTRECRUITERS,servicenow,Auto-discovered by successful public ATS API probe.
+ServiceTitan,DIRECT_EMPLOYER,,SMARTRECRUITERS,servicetitan,Auto-discovered by successful public ATS API probe.
+Snowflake,DIRECT_EMPLOYER,,ASHBY,snowflake,Auto-discovered by successful public ATS API probe.
+SoFi,DIRECT_EMPLOYER,,GREENHOUSE,sofi,Auto-discovered by successful public ATS API probe.
+Stripe,DIRECT_EMPLOYER,,GREENHOUSE,stripe,Auto-discovered by successful public ATS API probe.
+Supabase,STARTUP,,ASHBY,supabase,Auto-discovered by successful public ATS API probe.
+Supermove,STARTUP,,LEVER,supermove,Auto-discovered by successful public ATS API probe.
+Synechron,CONSULTING,,SMARTRECRUITERS,synechron,Auto-discovered by successful public ATS API probe.
+Tailscale,STARTUP,,GREENHOUSE,tailscale,Auto-discovered by successful public ATS API probe.
+Tekfortune,STAFFING_AGENCY,,SMARTRECRUITERS,tekfortune,Auto-discovered by successful public ATS API probe.
+Temporal,STARTUP,,ASHBY,temporal,Auto-discovered by successful public ATS API probe.
+Toast,DIRECT_EMPLOYER,,GREENHOUSE,toast,Auto-discovered by successful public ATS API probe.
+Twilio,DIRECT_EMPLOYER,,GREENHOUSE,twilio,Auto-discovered by successful public ATS API probe.
+Uber,DIRECT_EMPLOYER,https://www.uber.com/us/en/careers/list/,SMARTRECRUITERS,uber,Auto-discovered by successful public ATS API probe.
+Vaco,STAFFING_AGENCY,,GREENHOUSE,vaco,Auto-discovered by successful public ATS API probe.
+Vanta,STARTUP,,ASHBY,vanta,Auto-discovered by successful public ATS API probe.
+Vercel,DIRECT_EMPLOYER,,GREENHOUSE,vercel,Auto-discovered by successful public ATS API probe.
+Visa,DIRECT_EMPLOYER,https://jobs.smartrecruiters.com/Visa,SMARTRECRUITERS,visa,Auto-discovered by successful public ATS API probe.
+Wayfair,DIRECT_EMPLOYER,,SMARTRECRUITERS,wayfair,Auto-discovered by successful public ATS API probe.
+Webflow,STARTUP,,GREENHOUSE,webflow,Auto-discovered by successful public ATS API probe.
+Workday,DIRECT_EMPLOYER,https://workday.wd5.myworkdayjobs.com/Workday,WORKDAY,,V8.5.1 tier=1; industry=Enterprise SaaS; sponsor_priority=HIGH | V8.7 verified Workday public career-site endpoint.
+Zapier,DIRECT_EMPLOYER,,ASHBY,zapier,Auto-discovered by successful public ATS API probe.
+Zscaler,DIRECT_EMPLOYER,https://jobs.smartrecruiters.com/Zscaler,GREENHOUSE,zscaler,Auto-discovered by successful public ATS API probe.

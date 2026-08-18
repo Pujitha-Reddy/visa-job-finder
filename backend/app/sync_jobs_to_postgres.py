@@ -122,37 +122,44 @@ def sync():
         # Never remove SAVED / APPLIED / INTERVIEW / REJECTED /
         # SKIPPED jobs because those are part of application history.
 
-        sqlite_urls = {
-            row.get("source_url")
-            for row in rows
-            if row.get("source_url")
-        }
+        skip_stale_cleanup = (
+            os.getenv("SKIP_STALE_DELETE", "").strip() == "1"
+        )
 
-        with pg.cursor() as cur:
-            cur.execute("""
-                SELECT
-                    id,
-                    source_url,
-                    application_status
-                FROM jobs
-            """)
+        stale_deleted = 0
 
-            stale_ids = []
+        if not skip_stale_cleanup:
+            sqlite_urls = {
+                row.get("source_url")
+                for row in rows
+                if row.get("source_url")
+            }
 
-            for job_id, source_url, application_status in cur.fetchall():
-                if (
-                    source_url not in sqlite_urls
-                    and application_status == "NEW"
+            with pg.cursor() as cur:
+                cur.execute("""
+                    SELECT
+                        id,
+                        source_url,
+                        application_status
+                    FROM jobs
+                """)
+
+                stale_ids = []
+
+                for job_id, source_url, application_status in cur.fetchall():
+                    if (
+                        source_url not in sqlite_urls
+                        and application_status == "NEW"
                     ):
-                    stale_ids.append(job_id)
+                        stale_ids.append(job_id)
 
-            if stale_ids:
-                cur.execute(
-                    "DELETE FROM jobs WHERE id = ANY(%s)",
-                    (stale_ids,),
-                )
+                if stale_ids:
+                    cur.execute(
+                        "DELETE FROM jobs WHERE id = ANY(%s)",
+                        (stale_ids,),
+                    )
 
-            stale_deleted = len(stale_ids)
+                stale_deleted = len(stale_ids)
 
         pg.commit()
 
