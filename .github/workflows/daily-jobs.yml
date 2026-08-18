@@ -53,4 +53,4 @@ jobs:
       - name: Print sponsor coverage
         working-directory: backend
         run: |
-          python -m app.sponsor_coverage\n
+          python -m app.sponsor_coverage
