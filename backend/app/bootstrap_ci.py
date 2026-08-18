@@ -1,4 +1,7 @@
 from __future__ import annotations
+from .jobs_repository import init_jobs
+from .migrate_v84 import migrate_sqlite as migrate_v84
+from .migrate_v87_lifecycle import migrate as migrate_v87
 
 import csv
 import sqlite3
@@ -157,6 +160,15 @@ def bootstrap_sponsor_rollup():
 
 def main():
     print("=== CI BOOTSTRAP ===")
+
+    print("Initializing jobs schema...")
+    init_jobs()
+
+    print("Applying v84 migration...")
+    migrate_v84()
+
+    print("Applying v87 lifecycle migration...")
+    migrate_v87()
 
     registry_count = bootstrap_registry()
     print("REGISTRY SOURCES:", registry_count)
