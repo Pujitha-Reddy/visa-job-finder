@@ -4,6 +4,7 @@ from .v78_routes import router as v78_router
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
+import os
 
 from .database import get_connection, init_db
 from .collect import collect_all
@@ -23,9 +24,18 @@ app.include_router(v80_router)
 app.include_router(v78_router)
 
 
+cors_origins = [
+    x.strip()
+    for x in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173",
+    ).split(",")
+    if x.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
