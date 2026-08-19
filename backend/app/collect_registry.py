@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+import time
 from .registry.repository import (
     init_registry,
     list_enabled_sources,
@@ -16,6 +18,10 @@ from .classifiers.pipeline import analyze_job
 from .classifiers.eligibility_v83 import eligibility_gate
 from .jobs_repository import save_jobs
 from .lifecycle_v87 import mark_source_lifecycle
+from .source_health_repository import (
+    record_source_success,
+    record_source_failure,
+)
 
 
 def main():
@@ -36,16 +42,31 @@ def main():
     }
 
     for source in sources:
+        source_started_at = datetime.now(timezone.utc)
+        source_timer = time.perf_counter()
+
         collector = get_collector(source["ats"])
 
         if not collector:
             totals["errors"] += 1
 
-            print(
-                f"[ERROR] No collector for "
+            error = (
+                f"No collector for "
                 f"{source['employer_name']} "
                 f"[{source['ats']}]"
             )
+
+            record_source_failure(
+                source,
+                error=error,
+                started_at=source_started_at,
+                duration_ms=int(
+                    (time.perf_counter() - source_timer)
+                    * 1000
+                ),
+            )
+
+            print(f"[ERROR] {error}")
 
             continue
 
@@ -173,6 +194,21 @@ def main():
                 True,
             )
 
+            record_source_success(
+                source,
+                raw_jobs=len(raw_jobs),
+                eligible_jobs=len(analyzed),
+                excluded_jobs=len(excluded),
+                added_jobs=saved["added"],
+                updated_jobs=saved["updated"],
+                disappeared_jobs=lifecycle["disappeared"],
+                started_at=source_started_at,
+                duration_ms=int(
+                    (time.perf_counter() - source_timer)
+                    * 1000
+                ),
+            )
+
             # ---------------------------------------------
             # SOURCE LOG
             # ---------------------------------------------
@@ -206,6 +242,16 @@ def main():
                 source["source_id"],
                 0,
                 False,
+            )
+
+            record_source_failure(
+                source,
+                error=str(exc),
+                started_at=source_started_at,
+                duration_ms=int(
+                    (time.perf_counter() - source_timer)
+                    * 1000
+                ),
             )
 
             print(

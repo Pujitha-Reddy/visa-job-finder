@@ -9,6 +9,12 @@ from .postgres_repository import (
     update_application_status,
 )
 
+from .source_health_repository import (
+    fetch_source_health,
+    fetch_source_health_summary,
+    fetch_source_runs,
+)
+
 router = APIRouter(prefix="/v80", tags=["Postgres / Supabase"])
 
 
@@ -72,3 +78,44 @@ def postgres_status(job_id: int, body: StatusUpdate):
         raise HTTPException(status_code=404, detail="Job not found")
 
     return row
+
+
+@router.get("/admin/sources")
+def admin_sources(
+    stale_after_hours: int = Query(
+        24,
+        ge=1,
+        le=720,
+    ),
+):
+    return fetch_source_health(
+        stale_after_hours=stale_after_hours,
+    )
+
+
+@router.get("/admin/sources/summary")
+def admin_sources_summary(
+    stale_after_hours: int = Query(
+        24,
+        ge=1,
+        le=720,
+    ),
+):
+    return fetch_source_health_summary(
+        stale_after_hours=stale_after_hours,
+    )
+
+
+@router.get("/admin/sources/{source_key}/runs")
+def admin_source_runs(
+    source_key: str,
+    limit: int = Query(
+        20,
+        ge=1,
+        le=100,
+    ),
+):
+    return fetch_source_runs(
+        source_key,
+        limit,
+    )
