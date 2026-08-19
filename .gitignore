@@ -15,3 +15,9 @@ backend/data/jobs.db
 *.before_eligibility_fix
 backend/data/jobs.db
 frontend/tsconfig.tsbuildinfo
+
+# Local development backups
+*.before-*
+
+# Local backend data
+backend/data/
