@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import UnifiedFilterPanel from "./UnifiedFilterPanel";
+import SourceHealthPage from "./SourceHealthPage";
 import { fetchJobs, fetchStats, updateJobStatus } from "./api_v80";
 import type { Filters, Job, JobSort } from "./types";
 
@@ -105,6 +106,8 @@ function badgeTone(value: string) {
 }
 
 function App() {
+  const [view, setView] = useState<"jobs" | "source-health">("jobs");
+
   const [jobs, setJobs] = useState<Job[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [filters, setFilters] = useState<Filters>(defaultFilters);
@@ -203,6 +206,14 @@ function App() {
     await loadJobs();
   }
 
+  if (view === "source-health") {
+    return (
+      <SourceHealthPage
+        onBack={() => setView("jobs")}
+      />
+    );
+  }
+
   return (
     <div className="page">
       <header className="hero">
@@ -251,6 +262,12 @@ function App() {
           onClick={() => openHistory("INTERVIEW")}
         >
           Interviews <span>{stats?.interviews ?? 0}</span>
+        </button>
+        <button
+          className="sourceHealthNavButton"
+          onClick={() => setView("source-health")}
+        >
+          Source Health
         </button>
       </nav>
 

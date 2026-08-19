@@ -335,6 +335,10 @@ def fetch_source_health(
     for raw in rows:
         row = dict(raw)
 
+        # Tokens are collector configuration and should never be
+        # exposed through the admin HTTP API.
+        row.pop("token", None)
+
         status, reason = _status(
             row,
             stale_after_hours,
