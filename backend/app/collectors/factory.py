@@ -14,8 +14,10 @@ from .randstad import RandstadCollector
 from .robert_half import RobertHalfCollector
 from .amazon import AmazonCollector
 from .apple import AppleCollector
+from .hybrid import HybridCollector
 
 COLLECTORS = {
+    "HYBRID": HybridCollector(),
     "GREENHOUSE": GreenhouseCollector(),
     "LEVER": LeverCollector(),
     "ASHBY": AshbyCollector(),
