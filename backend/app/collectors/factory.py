@@ -4,6 +4,8 @@ from .ashby import AshbyCollector
 from .smartrecruiters import SmartRecruitersCollector
 from .workable import WorkableCollector
 from .workday import WorkdayCollector
+from .eightfold import EightfoldCollector
+from .oracle_hcm import OracleHCMCollector
 from .custom_html import CustomHTMLCollector
 from .insight_global import InsightGlobalCollector
 from .kforce import KforceCollector
@@ -11,6 +13,7 @@ from .teksystems import TEKsystemsCollector
 from .randstad import RandstadCollector
 from .robert_half import RobertHalfCollector
 from .amazon import AmazonCollector
+from .apple import AppleCollector
 
 COLLECTORS = {
     "GREENHOUSE": GreenhouseCollector(),
@@ -19,6 +22,8 @@ COLLECTORS = {
     "SMARTRECRUITERS": SmartRecruitersCollector(),
     "WORKABLE": WorkableCollector(),
     "WORKDAY": WorkdayCollector(),
+    "EIGHTFOLD": EightfoldCollector(),
+    "ORACLE_HCM": OracleHCMCollector(),
     "CUSTOM_HTML": CustomHTMLCollector(),
     "INSIGHT_GLOBAL": InsightGlobalCollector(),
     "KFORCE": KforceCollector(),
@@ -26,6 +31,7 @@ COLLECTORS = {
     "RANDSTAD": RandstadCollector(),
     "ROBERT_HALF": RobertHalfCollector(),
     "AMAZON": AmazonCollector(),
+    "APPLE": AppleCollector(),
 }
 
 def get_collector(ats):

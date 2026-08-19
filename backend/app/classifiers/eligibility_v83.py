@@ -21,6 +21,33 @@ US_HINTS = {
     "nationwide","washington, d.c.","washington dc"
 }
 
+# Country codes commonly returned by ATS APIs.
+#
+# Important:
+# "CA" is ambiguous because it can mean California or Canada.
+# We only treat CA as Canada when it appears in a multi-part location
+# such as "Montreal, QC, CA", not "Sunnyvale, CA".
+NON_US_COUNTRY_CODES = {
+    "jp","gb","uk","hu","in","ie","de","fr","es","it","nl","be",
+    "se","no","dk","fi","ch","at","pt","cz","ro","pl","sg","au",
+    "nz","cn","hk","tw","ph","br","ar","co","cl","pe","il","ae",
+    "za","mx"
+}
+
+SENIORITY_UNKNOWN_EXCLUDE = re.compile(
+    r"\b("
+    r"principal|"
+    r"staff|"
+    r"senior staff|"
+    r"sr\.?\s+staff|"
+    r"lead|"
+    r"director|"
+    r"vice president|"
+    r"vp"
+    r")\b",
+    re.I,
+)
+
 US_STATE_NAMES = {
     "alabama","alaska","arizona","arkansas","california","colorado","connecticut",
     "delaware","florida","georgia","hawaii","idaho","illinois","indiana","iowa",
@@ -55,17 +82,69 @@ def location_country_signal(job: dict) -> str:
     if any(term in text for term in NON_US_LOCATION_TERMS):
         return "NON_US"
 
+    # -----------------------------------------------------
+    # Explicit non-US country codes.
+    #
+    # Examples:
+    # Tokyo, JP
+    # London, GB
+    # Budapest, HU
+    # -----------------------------------------------------
+    if re.search(
+        r",\s*(?:"
+        + "|".join(sorted(NON_US_COUNTRY_CODES))
+        + r")\s*$",
+        text,
+        re.I,
+    ):
+        return "NON_US"
+
+    # Canada needs special handling because CA is also California.
+    #
+    # Montreal, QC, CA => Canada
+    # Toronto, ON, CA  => Canada
+    # Sunnyvale, CA    => California
+    if re.search(
+        r",\s*(?:ab|bc|mb|nb|nl|ns|nt|nu|on|pe|qc|sk|yt)\s*,\s*ca\s*$",
+        text,
+        re.I,
+    ):
+        return "NON_US"
+
     if any(term in text for term in US_HINTS):
         return "US"
 
     if any(state in text for state in US_STATE_NAMES):
         return "US"
 
-    # common US state abbreviations after comma
-    if re.search(r",\s*(al|ak|az|ar|ca|co|ct|de|fl|ga|hi|id|il|in|ia|ks|ky|la|me|md|ma|mi|mn|ms|mo|mt|ne|nv|nh|nj|nm|ny|nc|nd|oh|ok|or|pa|ri|sc|sd|tn|tx|ut|vt|va|wa|wv|wi|wy|dc)\b", text):
+    # Common US state abbreviations.
+    if re.search(
+        r",\s*(al|ak|az|ar|ca|co|ct|de|fl|ga|hi|id|il|in|ia|ks|ky|la|"
+        r"me|md|ma|mi|mn|ms|mo|mt|ne|nv|nh|nj|nm|ny|nc|nd|oh|ok|or|"
+        r"pa|ri|sc|sd|tn|tx|ut|vt|va|wa|wv|wi|wy|dc)(?:\s*,\s*us)?\s*$",
+        text,
+        re.I,
+    ):
         return "US"
 
     return "UNKNOWN"
+
+def _explicit_us_remote_location(loc_text: str) -> bool:
+    """
+    Location text itself clearly means US-wide remote/nationwide.
+
+    Do not treat an ordinary US city as remote merely because the
+    description failed to classify the work arrangement.
+    """
+    patterns = (
+        r"\bremote\s*[-,/ ]*\s*(?:us|usa|u\.s\.|united states)\b",
+        r"\b(?:us|usa|u\.s\.|united states)\s*[-,/ ]*\s*remote\b",
+        r"^\s*(?:united states|usa|u\.s\.)\s*$",
+        r"\banywhere in (?:the )?(?:us|u\.s\.|united states)\b",
+        r"\bnationwide\b",
+    )
+    return any(re.search(pattern, loc_text, re.I) for pattern in patterns)
+
 
 def location_eligibility(job: dict) -> str:
     loc_text = _location_text(job)
@@ -77,24 +156,51 @@ def location_eligibility(job: dict) -> str:
         return "NON_US"
 
     if TITLE_REGION_CONFLICT.search(title):
-        # Keep in DB for review, but production strict query can hide conflicts.
         return "REVIEW_TITLE_LOCATION_CONFLICT"
 
+    # Location text itself clearly represents a US-wide remote role.
+    # Check this before the generic REMOTE branch so values such as
+    # "US, Remote" are recognized even when punctuation prevents the
+    # simpler country-hint matching from firing.
+    if _explicit_us_remote_location(loc_text):
+        return "US_REMOTE"
+
+    # Explicit remote classification with no confirmed US location.
     if work == "REMOTE":
-        return "US_REMOTE" if signal == "US" else "REVIEW_REMOTE_COUNTRY_UNKNOWN"
+        return (
+            "US_REMOTE"
+            if signal == "US"
+            else "REVIEW_REMOTE_COUNTRY_UNKNOWN"
+        )
+
+    allowed_metro = any(
+        term in loc_text
+        for term in ALLOWED_ONSITE_HYBRID_TERMS
+    )
+
+    # Allowed locations stay useful even when the source does not
+    # explicitly label the job HYBRID/ONSITE.
+    if signal == "US" and allowed_metro:
+        return "ALLOWED_METRO"
 
     if work in {"HYBRID", "ONSITE"}:
         if signal != "US":
             return "NON_US_OR_UNKNOWN_ONSITE"
-        if any(term in loc_text for term in ALLOWED_ONSITE_HYBRID_TERMS):
-            return "ALLOWED_METRO"
         return "OUTSIDE_ALLOWED_METROS"
 
-    # UNKNOWN arrangement stays reviewable; strict UI decides whether to show it.
+    # Critical rule:
+    # A concrete known-US physical location outside the user's allowed
+    # metros is not made eligible simply because workplace arrangement
+    # was absent from the posting.
+    if work == "UNKNOWN" and signal == "US":
+        return "OUTSIDE_ALLOWED_METROS"
+
+    # Truly ambiguous location/workplace data remains reviewable.
     return "REVIEW_WORK_ARRANGEMENT"
 
 def experience_eligibility(job: dict) -> str:
     min_y = job.get("min_experience_years")
+
     if min_y is not None:
         try:
             return "OVER_6" if float(min_y) > 6 else "IN_RANGE"
@@ -102,9 +208,25 @@ def experience_eligibility(job: dict) -> str:
             pass
 
     text = (job.get("experience_text") or "").lower()
-    nums = [int(x) for x in re.findall(r"\b(\d{1,2})\s*\+?\s*years?\b", text)]
+
+    nums = [
+        int(x)
+        for x in re.findall(
+            r"\b(\d{1,2})\s*\+?\s*years?\b",
+            text,
+        )
+    ]
+
     if nums:
         return "OVER_6" if min(nums) > 6 else "IN_RANGE"
+
+    # If explicit YOE is absent but the title itself strongly implies
+    # a senior level outside the target search band, exclude rather
+    # than treating the role as entry/mid-level.
+    title = job.get("title") or ""
+
+    if SENIORITY_UNKNOWN_EXCLUDE.search(title):
+        return "SENIORITY_UNKNOWN_EXCLUDE"
 
     return "NOT_SPECIFIED"
 
@@ -124,7 +246,7 @@ def source_confidence(job: dict) -> tuple[int, str]:
 
     if ats in {
         "GREENHOUSE","LEVER","ASHBY","WORKDAY","SMARTRECRUITERS",
-        "WORKABLE","AMAZON_JOBS"
+        "WORKABLE","AMAZON_JOBS","AMAZON","HYBRID","EIGHTFOLD","ORACLE_HCM"
     }:
         score += 30
 
@@ -135,7 +257,7 @@ def source_confidence(job: dict) -> tuple[int, str]:
 
     if any(x in url for x in (
         "greenhouse.io","lever.co","ashbyhq.com","myworkdayjobs.com",
-        "smartrecruiters.com","workable.com","amazon.jobs"
+        "smartrecruiters.com","workable.com","amazon.jobs","eightfold.ai"
     )):
         score += 5
 
@@ -162,6 +284,9 @@ def eligibility_gate(job: dict) -> dict:
     elif exp == "OVER_6":
         eligible = False
         reason = "OVER_6_YOE"
+    elif exp == "SENIORITY_UNKNOWN_EXCLUDE":
+        eligible = False
+        reason = "SENIORITY_UNKNOWN_EXCLUDE"
     elif loc in {"NON_US","NON_US_OR_UNKNOWN_ONSITE","OUTSIDE_ALLOWED_METROS"}:
         eligible = False
         reason = loc

@@ -51,10 +51,41 @@ class WorkdayCollector(BaseCollector):
         if "posted yesterday" in low or low == "yesterday":
             dt = (now - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
             return dt.isoformat(), "MEDIUM", "WORKDAY_RELATIVE_POSTED_DATE"
+        # Workday commonly emits "Posted 30+ Days Ago".
+        m = re.search(r"(\d+)\+\s*days?\s+ago", low)
+        if m:
+            dt = (
+                now - timedelta(days=int(m.group(1)))
+            ).replace(
+                hour=0,
+                minute=0,
+                second=0,
+                microsecond=0,
+            )
+
+            return (
+                dt.isoformat(),
+                "MEDIUM",
+                "WORKDAY_RELATIVE_POSTED_DATE",
+            )
+
         m = re.search(r"(\d+)\s+days?\s+ago", low)
         if m:
-            dt = (now - timedelta(days=int(m.group(1)))).replace(hour=0, minute=0, second=0, microsecond=0)
-            return dt.isoformat(), "MEDIUM", "WORKDAY_RELATIVE_POSTED_DATE"
+            dt = (
+                now - timedelta(days=int(m.group(1)))
+            ).replace(
+                hour=0,
+                minute=0,
+                second=0,
+                microsecond=0,
+            )
+
+            return (
+                dt.isoformat(),
+                "MEDIUM",
+                "WORKDAY_RELATIVE_POSTED_DATE",
+            )
+
         return None, "UNKNOWN", "UNKNOWN"
 
     def _request_json(self, method, url, **kwargs):

@@ -1,26 +1,36 @@
 company,source_type,careers_url,ats,token,notes
 1Password,STARTUP,,ASHBY,1password,Auto-discovered by successful public ATS API probe.
 Abridge,STARTUP,,ASHBY,abridge,Auto-discovered by successful public ATS API probe.
+Adobe,DIRECT_EMPLOYER,https://adobe.wd5.myworkdayjobs.com/external_experienced,WORKDAY,,Verified Workday CXS source. Resolved from Adobe branded careers site.
 Affirm,DIRECT_EMPLOYER,,GREENHOUSE,affirm,Auto-discovered by successful public ATS API probe.
 Airbnb,DIRECT_EMPLOYER,,GREENHOUSE,airbnb,Auto-discovered by successful public ATS API probe.
 Airbyte,STARTUP,,ASHBY,airbyte,Auto-discovered by successful public ATS API probe.
 Airtable,STARTUP,,GREENHOUSE,airtable,Auto-discovered by successful public ATS API probe.
 Amazon,DIRECT_EMPLOYER,https://www.amazon.jobs/en/,AMAZON,5,V8.5.1 tier=1; industry=Cloud/Commerce; sponsor_priority=HIGH
-Amazon,DIRECT_EMPLOYER,https://www.amazon.jobs/en/search,AMAZON,5,V8.5 official Amazon Jobs collector
 Anthropic,DIRECT_EMPLOYER,,GREENHOUSE,anthropic,Auto-discovered by successful public ATS API probe.
 Antra Inc,CONSULTING,,SMARTRECRUITERS,antrainc,Auto-discovered by successful public ATS API probe.
+Apple,DIRECT_EMPLOYER,https://jobs.apple.com/en-us/search,HYBRID,,Hybrid HTML discovery with optional JSON detail enrichment. US-scoped source. Detail API falls back safely on HTTP 429/436.
 Asana,DIRECT_EMPLOYER,,GREENHOUSE,asana,Auto-discovered by successful public ATS API probe.
 Astronomer,STARTUP,,ASHBY,astronomer,Auto-discovered by successful public ATS API probe.
-BCforward,STAFFING_AGENCY,,SMARTRECRUITERS,bcforward,Auto-discovered by successful public ATS API probe.
+AT&T,DIRECT_EMPLOYER,https://att.wd1.myworkdayjobs.com/ATTGeneral,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site with locale-aware resolver and validated via POST /wday/cxs/{tenant}/{site}/jobs.
+Bank of America,DIRECT_EMPLOYER,https://ghr.wd1.myworkdayjobs.com/lateral-us,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site with locale-aware resolver and validated via POST /wday/cxs/{tenant}/{site}/jobs.
 Basis,STARTUP,,LEVER,basis,Auto-discovered by successful public ATS API probe.
+BCforward,STAFFING_AGENCY,,SMARTRECRUITERS,bcforward,Auto-discovered by successful public ATS API probe.
 Block,DIRECT_EMPLOYER,,GREENHOUSE,block,Auto-discovered by successful public ATS API probe.
+Boeing,DIRECT_EMPLOYER,https://boeing.wd1.myworkdayjobs.com/EXTERNAL_CAREERS,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site with locale-aware resolver and validated via POST /wday/cxs/{tenant}/{site}/jobs.
+Box,DIRECT_EMPLOYER,https://job-boards.greenhouse.io/boxinc,GREENHOUSE,boxinc,Verified Greenhouse public job-board source. Token boxinc returned active jobs.
 Brex,DIRECT_EMPLOYER,,GREENHOUSE,brex,Auto-discovered by successful public ATS API probe.
 Canva,DIRECT_EMPLOYER,,SMARTRECRUITERS,canva,Auto-discovered by successful public ATS API probe.
+Capital One,DIRECT_EMPLOYER,https://capitalone.wd12.myworkdayjobs.com/Capital_One,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 CaptivateIQ,STARTUP,,LEVER,captivateiq,Auto-discovered by successful public ATS API probe.
 CarGurus,DIRECT_EMPLOYER,,GREENHOUSE,cargurus,Auto-discovered by successful public ATS API probe.
 Carta,STARTUP,,GREENHOUSE,carta,Auto-discovered by successful public ATS API probe.
+Caterpillar,DIRECT_EMPLOYER,https://cat.wd5.myworkdayjobs.com/CaterpillarCareers,WORKDAY,,Verified Workday CXS source. Resolved from Caterpillar branded careers site.
+Centene,DIRECT_EMPLOYER,https://centene.wd5.myworkdayjobs.com/centene_external,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 Checkr,STARTUP,,GREENHOUSE,checkr,Auto-discovered by successful public ATS API probe.
 Chime,DIRECT_EMPLOYER,,GREENHOUSE,chime,Auto-discovered by successful public ATS API probe.
+Cigna,DIRECT_EMPLOYER,https://cigna.wd5.myworkdayjobs.com/cignacareers,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
+Citi,DIRECT_EMPLOYER,https://citi.wd5.myworkdayjobs.com/2,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site with locale-aware resolver and validated via POST /wday/cxs/{tenant}/{site}/jobs.
 ClickHouse,STARTUP,,ASHBY,clickhouse,Auto-discovered by successful public ATS API probe.
 ClickHouse,STARTUP,,GREENHOUSE,clickhouse,Auto-discovered by successful public ATS API probe.
 Cloudflare,DIRECT_EMPLOYER,,GREENHOUSE,cloudflare,Auto-discovered by successful public ATS API probe.
@@ -28,6 +38,7 @@ Cockroach Labs,STARTUP,,GREENHOUSE,cockroachlabs,Auto-discovered by successful p
 Cognition,STARTUP,,ASHBY,cognition,Auto-discovered by successful public ATS API probe.
 Coinbase,DIRECT_EMPLOYER,,GREENHOUSE,coinbase,Auto-discovered by successful public ATS API probe.
 Column,STARTUP,,ASHBY,column,Auto-discovered by successful public ATS API probe.
+Comcast,DIRECT_EMPLOYER,https://comcast.wd5.myworkdayjobs.com/Comcast_Careers,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site with locale-aware resolver and validated via POST /wday/cxs/{tenant}/{site}/jobs.
 Confluent,DIRECT_EMPLOYER,,ASHBY,confluent,Auto-discovered by successful public ATS API probe.
 Cribl,STARTUP,,GREENHOUSE,cribl,Auto-discovered by successful public ATS API probe.
 CrowdStrike,DIRECT_EMPLOYER,https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers,WORKDAY,,Large-registry seed; verify careers source and ATS before enabling. | V8.7 verified Workday public career-site endpoint.
@@ -38,49 +49,58 @@ Discord,DIRECT_EMPLOYER,,GREENHOUSE,discord,Auto-discovered by successful public
 Docker,DIRECT_EMPLOYER,,ASHBY,docker,Auto-discovered by successful public ATS API probe.
 Dropbox,DIRECT_EMPLOYER,,GREENHOUSE,dropbox,Auto-discovered by successful public ATS API probe.
 Elastic,DIRECT_EMPLOYER,,GREENHOUSE,elastic,Auto-discovered by successful public ATS API probe.
+Elevance Health,DIRECT_EMPLOYER,https://elevancehealth.wd1.myworkdayjobs.com/ANT,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 ElevenLabs,STARTUP,,ASHBY,elevenlabs,Auto-discovered by successful public ATS API probe.
 FanDuel,DIRECT_EMPLOYER,,GREENHOUSE,fanduel,Auto-discovered by successful public ATS API probe.
 Fastly,DIRECT_EMPLOYER,,GREENHOUSE,fastly,Auto-discovered by successful public ATS API probe.
 Figma,DIRECT_EMPLOYER,,GREENHOUSE,figma,Auto-discovered by successful public ATS API probe.
 Finix,STARTUP,,LEVER,finix,Auto-discovered by successful public ATS API probe.
-Flex,DIRECT_EMPLOYER,,GREENHOUSE,flex,Auto-discovered by successful public ATS API probe.
 Flex,DIRECT_EMPLOYER,,LEVER,Flex,
+Ford,DIRECT_EMPLOYER,https://efds.fa.em5.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1,ORACLE_HCM,efds.fa.em5.oraclecloud.com|CX_1,Verified Oracle HCM Candidate Experience source. Uses recruitingCEJobRequisitions findReqs with comma-separated finder pagination and expand=requisitionList.
+GE Aerospace,DIRECT_EMPLOYER,https://geaerospace.wd5.myworkdayjobs.com/GE_ExternalSite,WORKDAY,,Verified Workday CXS source. Resolved from GE Aerospace branded careers site.
 GitLab,DIRECT_EMPLOYER,,GREENHOUSE,gitlab,Auto-discovered by successful public ATS API probe.
 Glean,STARTUP,,SMARTRECRUITERS,glean,Auto-discovered by successful public ATS API probe.
+Goldman Sachs,DIRECT_EMPLOYER,https://higher.gs.com/results,ORACLE_HCM,hdpc.fa.us2.oraclecloud.com|LateralHiring,"Verified Goldman Sachs Oracle HCM Candidate Experience source. Production host hdpc.fa.us2.oraclecloud.com, site LateralHiring. Uses recruitingCEJobRequisitions findReqs with comma-separated pagination and expand=requisitionList."
 Gong,STARTUP,,SMARTRECRUITERS,gong,Auto-discovered by successful public ATS API probe.
 Grafana Labs,DIRECT_EMPLOYER,,GREENHOUSE,grafanalabs,Auto-discovered by successful public ATS API probe.
 Harvey,STARTUP,,ASHBY,harvey,Auto-discovered by successful public ATS API probe.
 Highnote,STARTUP,,GREENHOUSE,highnote,Auto-discovered by successful public ATS API probe.
-Hightouch,STARTUP,,ASHBY,hightouch,Auto-discovered by successful public ATS API probe.
 Hightouch,STARTUP,,GREENHOUSE,hightouch,Auto-discovered by successful public ATS API probe.
+Home Depot,DIRECT_EMPLOYER,https://homedepot.wd5.myworkdayjobs.com/CareerDepot,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 Honeycomb,STARTUP,,GREENHOUSE,honeycomb,Auto-discovered by successful public ATS API probe.
+Honeywell,DIRECT_EMPLOYER,https://careers.honeywell.com/en/sites/Honeywell,ORACLE_HCM,ibqbjb.fa.ocs.oraclecloud.com|CX_1,Verified Oracle HCM Candidate Experience source. Uses recruitingCEJobRequisitions findReqs with comma-separated finder pagination and expand=requisitionList.
 Horizontal Talent,STAFFING_AGENCY,,SMARTRECRUITERS,horizontaltalent,Auto-discovered by successful public ATS API probe.
+Humana,DIRECT_EMPLOYER,https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site,WORKDAY,,Verified Humana Workday CXS source. CenterWell source intentionally excluded because it is a separate brand/feed.
 Insight Global,STAFFING_AGENCY,https://jobs.insightglobal.com/jobs/find_a_job/?miles=False&remote=true&srch=remote,INSIGHT_GLOBAL,,V7.7 verified public Insight Global job-board collector.
 Instacart,DIRECT_EMPLOYER,,GREENHOUSE,instacart,Auto-discovered by successful public ATS API probe.
+John Deere,DIRECT_EMPLOYER,https://johndeere.eightfold.ai/careers,EIGHTFOLD,johndeere.com,"Verified Eightfold PCS source. Uses public /careers bootstrap + CSRF session, /api/pcsx/search, and /api/pcsx/position_details."
+JPMorgan Chase,DIRECT_EMPLOYER,https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/requisitions,ORACLE_HCM,jpmc.fa.oraclecloud.com|CX_1001,Verified Oracle HCM Candidate Experience source. Uses recruitingCEJobRequisitions findReqs with comma-separated finder pagination and expand=requisitionList.
 Lattice,STARTUP,,GREENHOUSE,lattice,Auto-discovered by successful public ATS API probe.
 LaunchDarkly,STARTUP,,GREENHOUSE,launchdarkly,Auto-discovered by successful public ATS API probe.
-LinkedIn,DIRECT_EMPLOYER,https://www.linkedin.com/jobs/,GREENHOUSE,linkedin,Auto-discovered by successful public ATS API probe.
 LinkedIn,DIRECT_EMPLOYER,https://www.linkedin.com/jobs/,LEVER,linkedin,Auto-discovered by successful public ATS API probe.
 Lyft,DIRECT_EMPLOYER,,GREENHOUSE,lyft,Auto-discovered by successful public ATS API probe.
+Mastercard,DIRECT_EMPLOYER,https://mastercard.wd1.myworkdayjobs.com/CorporateCareers,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 Materialize,STARTUP,,ASHBY,materialize,Auto-discovered by successful public ATS API probe.
 Mercor,STARTUP,,ASHBY,mercor,Auto-discovered by successful public ATS API probe.
 Mercury,STARTUP,,GREENHOUSE,mercury,Auto-discovered by successful public ATS API probe.
+Microsoft,DIRECT_EMPLOYER,https://apply.careers.microsoft.com/careers,EIGHTFOLD,microsoft.com,"Verified Eightfold PCS source. Uses public /careers bootstrap + CSRF session, /api/pcsx/search, and /api/pcsx/position_details."
 Miro,DIRECT_EMPLOYER,,ASHBY,miro,Auto-discovered by successful public ATS API probe.
 Modal,STARTUP,,ASHBY,modal,Auto-discovered by successful public ATS API probe.
 Modern Treasury,STARTUP,,ASHBY,moderntreasury,Auto-discovered by successful public ATS API probe.
 MongoDB,DIRECT_EMPLOYER,,GREENHOUSE,mongodb,Auto-discovered by successful public ATS API probe.
+Morgan Stanley,DIRECT_EMPLOYER,https://morganstanley.eightfold.ai/careers,EIGHTFOLD,morganstanley.com,"Verified Eightfold PCS source. Uses public /careers bootstrap + CSRF session, /api/pcsx/search, and /api/pcsx/position_details."
 MotherDuck,STARTUP,,ASHBY,motherduck,Auto-discovered by successful public ATS API probe.
-NVIDIA,DIRECT_EMPLOYER,https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite,WORKDAY,,Large-registry seed; verify careers source and ATS before enabling. | V8.7 verified Workday public career-site endpoint.
 Neon,STARTUP,,ASHBY,neon,Auto-discovered by successful public ATS API probe.
-Neon,STARTUP,,LEVER,neon,Auto-discovered by successful public ATS API probe.
 Netlify,DIRECT_EMPLOYER,,GREENHOUSE,netlify,Auto-discovered by successful public ATS API probe.
 New Relic,DIRECT_EMPLOYER,,GREENHOUSE,newrelic,Auto-discovered by successful public ATS API probe.
-New Relic,DIRECT_EMPLOYER,,SMARTRECRUITERS,newrelic,Auto-discovered by successful public ATS API probe.
 Notion,DIRECT_EMPLOYER,,ASHBY,notion,Auto-discovered by successful public ATS API probe.
+NVIDIA,DIRECT_EMPLOYER,https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite,WORKDAY,,Large-registry seed; verify careers source and ATS before enabling. | V8.7 verified Workday public career-site endpoint.
 Okta,DIRECT_EMPLOYER,,GREENHOUSE,okta,Auto-discovered by successful public ATS API probe.
 OpenAI,DIRECT_EMPLOYER,,ASHBY,openai,Auto-discovered by successful public ATS API probe.
+Oracle,DIRECT_EMPLOYER,https://careers.oracle.com/en/sites/jobsearch,ORACLE_HCM,eeho.fa.us2.oraclecloud.com|CX_45001,"Verified Oracle HCM Candidate Experience source. Oracle host eeho.fa.us2.oraclecloud.com, site CX_45001. Uses recruitingCEJobRequisitions findReqs with comma-separated pagination and expand=requisitionList."
 Palantir,DIRECT_EMPLOYER,,LEVER,palantir,Auto-discovered by successful public ATS API probe.
-Palantir,DIRECT_EMPLOYER,,SMARTRECRUITERS,palantir,Auto-discovered by successful public ATS API probe.
+Palo Alto Networks,DIRECT_EMPLOYER,https://paloaltonetworks.wd5.myworkdayjobs.com/panwexternalcareers,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site with locale-aware resolver and validated via POST /wday/cxs/{tenant}/{site}/jobs.
+PayPal,DIRECT_EMPLOYER,https://paypal.eightfold.ai/careers,EIGHTFOLD,paypal.com,"Verified Eightfold PCS source. Uses public /careers bootstrap + CSRF session, /api/pcsx/search, and /api/pcsx/position_details."
 Perplexity,STARTUP,,ASHBY,perplexity,Auto-discovered by successful public ATS API probe.
 Persona,STARTUP,,ASHBY,persona,Auto-discovered by successful public ATS API probe.
 Pinterest,DIRECT_EMPLOYER,,GREENHOUSE,pinterest,Auto-discovered by successful public ATS API probe.
@@ -109,15 +129,19 @@ Stripe,DIRECT_EMPLOYER,,GREENHOUSE,stripe,Auto-discovered by successful public A
 Supabase,STARTUP,,ASHBY,supabase,Auto-discovered by successful public ATS API probe.
 Supermove,STARTUP,,LEVER,supermove,Auto-discovered by successful public ATS API probe.
 Synechron,CONSULTING,,SMARTRECRUITERS,synechron,Auto-discovered by successful public ATS API probe.
+T-Mobile,DIRECT_EMPLOYER,https://tmobile.wd1.myworkdayjobs.com/External,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 Tailscale,STARTUP,,GREENHOUSE,tailscale,Auto-discovered by successful public ATS API probe.
+Target,DIRECT_EMPLOYER,https://target.wd5.myworkdayjobs.com/targetcareers,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 Tekfortune,STAFFING_AGENCY,,SMARTRECRUITERS,tekfortune,Auto-discovered by successful public ATS API probe.
 Temporal,STARTUP,,ASHBY,temporal,Auto-discovered by successful public ATS API probe.
 Toast,DIRECT_EMPLOYER,,GREENHOUSE,toast,Auto-discovered by successful public ATS API probe.
 Twilio,DIRECT_EMPLOYER,,GREENHOUSE,twilio,Auto-discovered by successful public ATS API probe.
+U.S. Bank,DIRECT_EMPLOYER,https://usbank.wd1.myworkdayjobs.com/US_Bank_Careers,WORKDAY,,Verified Workday CXS source. Resolved from branded careers site and validated with POST /wday/cxs/{tenant}/{site}/jobs.
 Uber,DIRECT_EMPLOYER,https://www.uber.com/us/en/careers/list/,SMARTRECRUITERS,uber,Auto-discovered by successful public ATS API probe.
 Vaco,STAFFING_AGENCY,,GREENHOUSE,vaco,Auto-discovered by successful public ATS API probe.
 Vanta,STARTUP,,ASHBY,vanta,Auto-discovered by successful public ATS API probe.
 Vercel,DIRECT_EMPLOYER,,GREENHOUSE,vercel,Auto-discovered by successful public ATS API probe.
+Verizon,DIRECT_EMPLOYER,https://verizon.wd12.myworkdayjobs.com/verizon-careers,WORKDAY,,Verified Workday CXS source. Resolved from Verizon branded careers site.
 Visa,DIRECT_EMPLOYER,https://jobs.smartrecruiters.com/Visa,SMARTRECRUITERS,visa,Auto-discovered by successful public ATS API probe.
 Wayfair,DIRECT_EMPLOYER,,SMARTRECRUITERS,wayfair,Auto-discovered by successful public ATS API probe.
 Webflow,STARTUP,,GREENHOUSE,webflow,Auto-discovered by successful public ATS API probe.
