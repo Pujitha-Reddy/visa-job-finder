@@ -19,6 +19,8 @@ jobs:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       SKIP_STALE_DELETE: "1"
       PYTHONUNBUFFERED: "1"
+      CLOUD_RUNNER: "1"
+      VJF_CLOUD_HEALTH: "1"
 
     steps:
       - name: Checkout repository

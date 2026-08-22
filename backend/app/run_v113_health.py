@@ -9,7 +9,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from .postgres_repository import pg_conn
 from .canonical_db import canonical_conn, backend_name
 from .database import DB_PATH
 from .registry.repository import list_enabled_sources
@@ -112,19 +111,15 @@ def scheduler_health():
 
 def ingestion_health():
     """
-    Current-pass coverage/status comes from the ephemeral
-    SQLite ingestion_runs table.
+    Current-pass execution state comes from the ephemeral SQLite
+    runner.
 
-    In cloud execution, persistent production failure state
-    comes from durable Postgres source_health.
+    Persistent production failure state comes from Postgres when
+    the canonical backend is Postgres.
 
-    This lets a transient current-pass source failure remain
-    visible in status_counts without incorrectly classifying it
-    as a persistent production failure after the durable source
-    has recovered.
+    This preserves transient current-run failures without treating
+    them as persistent production failures.
     """
-
-    import os
 
     registry = list_enabled_sources()
 
@@ -132,6 +127,10 @@ def ingestion_health():
         str(source["source_id"])
         for source in registry
     }
+
+    # ======================================================
+    # CURRENT-PASS AUTHORITY
+    # ======================================================
 
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -173,70 +172,103 @@ def ingestion_health():
         expected_ids - set(latest)
     )
 
-    if os.getenv("DATABASE_URL"):
-        failures = []
+    current_failures = []
 
-        with pg_conn() as conn, conn.cursor() as cur:
-            cur.execute(
+    for source_id, row in latest.items():
+        if row.get("status") != "SUCCESS":
+            current_failures.append(
+                {
+                    "source_id": source_id,
+                    "provider":
+                        row.get("provider"),
+                    "status":
+                        row.get("status"),
+                    "error":
+                        row.get("error"),
+                }
+            )
+
+    # ======================================================
+    # DURABLE FAILURE AUTHORITY
+    # ======================================================
+
+    if backend_name() == "postgres":
+        persistent_failures = []
+
+        with canonical_conn() as conn:
+            rows = conn.execute(
                 """
                 SELECT
                     source_key,
                     employer_name,
                     ats,
                     consecutive_failures,
+                    last_failure_at,
+                    last_success_at,
                     last_error
                 FROM source_health
-                WHERE enabled IS TRUE
+                WHERE enabled=TRUE
                   AND consecutive_failures > 0
                 ORDER BY
                     consecutive_failures DESC,
                     employer_name
                 """
+            ).fetchall()
+
+        for row in rows:
+            item = dict(row)
+
+            persistent_failures.append(
+                {
+                    "source_key":
+                        item.get("source_key"),
+                    "employer":
+                        item.get("employer_name"),
+                    "provider":
+                        item.get("ats"),
+                    "status":
+                        "FAILED",
+                    "consecutive_failures":
+                        item.get(
+                            "consecutive_failures"
+                        ),
+                    "error":
+                        item.get("last_error"),
+                    "last_failure_at":
+                        str(
+                            item.get(
+                                "last_failure_at"
+                            )
+                        )
+                        if item.get(
+                            "last_failure_at"
+                        )
+                        else None,
+                    "last_success_at":
+                        str(
+                            item.get(
+                                "last_success_at"
+                            )
+                        )
+                        if item.get(
+                            "last_success_at"
+                        )
+                        else None,
+                }
             )
 
-            for row in cur.fetchall():
-                failures.append(
-                    {
-                        "source_key":
-                            row["source_key"],
-
-                        "employer":
-                            row["employer_name"],
-
-                        "provider":
-                            row["ats"],
-
-                        "status":
-                            "PERSISTENT_FAILED",
-
-                        "consecutive_failures":
-                            row["consecutive_failures"],
-
-                        "error":
-                            row["last_error"],
-                    }
-                )
+        failure_authority = (
+            "POSTGRES_SOURCE_HEALTH"
+        )
 
     else:
-        failures = []
+        persistent_failures = (
+            current_failures
+        )
 
-        for source_id, row in latest.items():
-            if row.get("status") != "SUCCESS":
-                failures.append(
-                    {
-                        "source_id":
-                            source_id,
-
-                        "provider":
-                            row.get("provider"),
-
-                        "status":
-                            row.get("status"),
-
-                        "error":
-                            row.get("error"),
-                    }
-                )
+        failure_authority = (
+            "SQLITE_INGESTION_RUNS"
+        )
 
     return {
         "enabled_sources":
@@ -251,8 +283,14 @@ def ingestion_health():
         "missing_sources":
             missing,
 
+        "current_pass_failures":
+            current_failures,
+
         "persistent_failures":
-            failures,
+            persistent_failures,
+
+        "failure_authority":
+            failure_authority,
     }
 
 
@@ -364,7 +402,39 @@ def canonical_health():
 
 
 def parity_health():
-    sqlite_conn = sqlite3.connect(DB_PATH)
+    """
+    SQLite/Postgres parity is a hard production check only on the
+    certified ephemeral cloud runner.
+
+    A developer Mac may intentionally have a stale local SQLite
+    snapshot after GitHub has advanced Postgres, so local parity is
+    informational rather than a production-health gate.
+    """
+
+    if backend_name() != "postgres":
+        return {
+            "checked": False,
+            "match": True,
+            "reason": (
+                "canonical backend is not postgres"
+            ),
+            "authority": "LOCAL_SQLITE",
+        }
+
+    if os.getenv("CLOUD_RUNNER") != "1":
+        return {
+            "checked": False,
+            "match": True,
+            "reason": (
+                "local SQLite parity is not authoritative "
+                "outside certified cloud runner"
+            ),
+            "authority": "POSTGRES",
+        }
+
+    sqlite_conn = sqlite3.connect(
+        DB_PATH
+    )
     sqlite_conn.row_factory = sqlite3.Row
 
     sqlite_counts = {}
@@ -372,7 +442,10 @@ def parity_health():
     try:
         sqlite_counts["canonical_jobs"] = scalar(
             sqlite_conn,
-            "SELECT COUNT(*) FROM canonical_jobs",
+            """
+            SELECT COUNT(*)
+            FROM canonical_jobs
+            """,
         )
 
         sqlite_counts["active_jobs"] = scalar(
@@ -392,54 +465,63 @@ def parity_health():
             WHERE is_eligible=1
             """,
         )
+
     finally:
         sqlite_conn.close()
 
-    if backend_name() != "postgres":
-        return {
-            "checked": False,
-            "reason": "canonical backend is not postgres",
-        }
-
     with canonical_conn() as conn:
         postgres_counts = {
-            "canonical_jobs": scalar(
-                conn,
-                "SELECT COUNT(*) FROM canonical_jobs",
-            ),
-            "active_jobs": scalar(
-                conn,
-                """
-                SELECT COUNT(*)
-                FROM canonical_jobs
-                WHERE is_active=TRUE
-                """,
-            ),
-            "eligible_jobs": scalar(
-                conn,
-                """
-                SELECT COUNT(*)
-                FROM canonical_job_enrichment
-                WHERE is_eligible=TRUE
-                """,
-            ),
+            "canonical_jobs":
+                scalar(
+                    conn,
+                    """
+                    SELECT COUNT(*)
+                    FROM canonical_jobs
+                    """,
+                ),
+
+            "active_jobs":
+                scalar(
+                    conn,
+                    """
+                    SELECT COUNT(*)
+                    FROM canonical_jobs
+                    WHERE is_active=TRUE
+                    """,
+                ),
+
+            "eligible_jobs":
+                scalar(
+                    conn,
+                    """
+                    SELECT COUNT(*)
+                    FROM canonical_job_enrichment
+                    WHERE is_eligible=TRUE
+                    """,
+                ),
         }
 
     sqlite_counts = {
         key: int(value or 0)
-        for key, value in sqlite_counts.items()
+        for key, value
+        in sqlite_counts.items()
     }
 
     postgres_counts = {
         key: int(value or 0)
-        for key, value in postgres_counts.items()
+        for key, value
+        in postgres_counts.items()
     }
 
     return {
         "checked": True,
-        "match": sqlite_counts == postgres_counts,
+        "match":
+            sqlite_counts
+            == postgres_counts,
         "sqlite": sqlite_counts,
         "postgres": postgres_counts,
+        "authority":
+            "CLOUD_RUNNER_PARITY",
     }
 
 
@@ -525,11 +607,6 @@ def print_human(report):
     print(
         "  persistent failures:",
         len(i["persistent_failures"]),
-        "| authority:",
-        i.get(
-            "failure_backend",
-            "unknown",
-        ),
     )
 
     c = report["canonical"]
