@@ -16,7 +16,11 @@ def jobs(
 ):
     init_jobs()
 
-    clauses = ["1=1"]
+    clauses = [
+        "1=1",
+        "COALESCE(is_active, 1) = 1",
+        "COALESCE(is_eligible, 1) = 1",
+    ]
     params = []
 
     # Some agency sources do not expose a reliable posted timestamp.
@@ -62,6 +66,8 @@ def facets():
                     f"""
                     SELECT COALESCE({column},'UNKNOWN') AS value, COUNT(*) AS count
                     FROM jobs
+                    WHERE COALESCE(is_active, 1) = 1
+                      AND COALESCE(is_eligible, 1) = 1
                     GROUP BY COALESCE({column},'UNKNOWN')
                     ORDER BY count DESC
                     """

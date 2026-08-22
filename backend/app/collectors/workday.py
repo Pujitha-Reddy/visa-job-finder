@@ -7,6 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 from .base import BaseCollector
 from .common import title_matches
+from app.ingestion.models import CollectionResult
 
 class WorkdayCollector(BaseCollector):
     ats_name = "WORKDAY"
@@ -105,18 +106,59 @@ class WorkdayCollector(BaseCollector):
         origin = f"{scheme}://{host}"
         search_url = f"{origin}/wday/cxs/{tenant}/{site}/jobs"
         limit, offset, jobs = 20, 0, []
+        scanned = 0
+        rejected = 0
+
+        # Workday commonly reports total only on the first page.
+        # Later pages may return total=0 even while jobPostings
+        # still contains records.
+        expected_total = None
+        pages = 0
+        termination_reason = None
+
         while True:
+            # Workday searchText is not a reliable title filter.
+            #
+            # Different employer tenants match searchText against
+            # descriptions, metadata, synonyms, and other fields.
+            # This can both miss valid software jobs and return
+            # unrelated roles.
+            #
+            # Pull the employer's posting inventory and apply our
+            # deterministic software-title filter locally instead.
             payload = self._request_json("POST", search_url, json={
-                "appliedFacets": {}, "limit": limit, "offset": offset,
-                "searchText": "software engineer",
+                "appliedFacets": {},
+                "limit": limit,
+                "offset": offset,
+                "searchText": "",
             })
             postings = payload.get("jobPostings") or []
-            total = int(payload.get("total") or len(postings))
+            pages += 1
+
+            reported_total = payload.get("total")
+
+            if expected_total is None:
+                try:
+                    parsed_total = int(reported_total)
+                except (TypeError, ValueError):
+                    parsed_total = 0
+
+                if parsed_total > 0:
+                    expected_total = parsed_total
+
             if not postings:
+                termination_reason = "EMPTY_PAGE"
                 break
             for raw in postings:
-                title = (raw.get("title") or "").strip()
+                scanned += 1
+
+                title = (
+                    raw.get("title")
+                    or ""
+                ).strip()
+
                 if not title_matches(title):
+                    rejected += 1
                     continue
                 external_path = raw.get("externalPath") or ""
                 if not external_path:
@@ -154,6 +196,42 @@ class WorkdayCollector(BaseCollector):
                     "freshness_source": freshness_source,
                 })
             offset += len(postings)
-            if offset >= total:
+
+            # Short page is authoritative end-of-feed evidence.
+            if len(postings) < limit:
+                termination_reason = "SHORT_FINAL_PAGE"
                 break
-        return jobs
+
+            # Use the first trustworthy total. Do not overwrite
+            # it when later Workday pages report total=0.
+            if (
+                expected_total is not None
+                and offset >= expected_total
+            ):
+                termination_reason = "EXPECTED_TOTAL_REACHED"
+                break
+
+        print(
+            f"[WORKDAY] {source.get('employer_name')}: "
+            f"{scanned} postings scanned / "
+            f"{len(jobs)} software accepted / "
+            f"{rejected} title rejected"
+        )
+
+        snapshot_complete = (
+            termination_reason
+            in {
+                "EMPTY_PAGE",
+                "SHORT_FINAL_PAGE",
+                "EXPECTED_TOTAL_REACHED",
+            }
+        )
+
+        return CollectionResult(
+            jobs=jobs,
+            snapshot_complete=snapshot_complete,
+            records_scanned=scanned,
+            expected_total=expected_total,
+            pages_completed=pages,
+            termination_reason=termination_reason,
+        )

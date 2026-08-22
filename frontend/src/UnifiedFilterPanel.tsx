@@ -72,15 +72,15 @@ export default function UnifiedFilterPanel(p: Props) {
       />
 
       <Select
-        label="Source"
+        label="Sponsor history"
         value={p.sourceType}
         onChange={p.setSourceType}
         options={[
-          { value: "DIRECT_EMPLOYER", label: "Direct Employer" },
-          { value: "", label: "All source types" },
-          { value: "STARTUP", label: "Startup" },
-          { value: "STAFFING_AGENCY", label: "Staffing Agency" },
-          { value: "CONSULTING", label: "Consulting" },
+          { value: "", label: "All sponsor-history levels" },
+          { value: "STRONG", label: "Strong" },
+          { value: "GOOD", label: "Good" },
+          { value: "MODERATE", label: "Moderate" },
+          { value: "WEAK", label: "Weak" },
         ]}
       />
 
@@ -131,43 +131,14 @@ export default function UnifiedFilterPanel(p: Props) {
           />
 
           <Select
-            label="Employment"
-            value={p.employmentDetail}
-            onChange={p.setEmploymentDetail}
-            options={[
-              { value: "", label: "All employment types" },
-              { value: "FULL_TIME", label: "Full-Time" },
-              { value: "CONTRACT_W2", label: "W2 Contract" },
-              { value: "CONTRACT_C2C", label: "C2C" },
-              { value: "CONTRACT_TO_HIRE", label: "Contract-to-Hire" },
-              { value: "CONTRACT_UNKNOWN", label: "Contract — Review" },
-            ]}
-          />
-
-          <Select
             label="Visa"
             value={p.visaDetail}
             onChange={p.setVisaDetail}
             options={[
-              { value: "", label: "All visa statuses" },
-              { value: "SPONSORSHIP_AVAILABLE", label: "Sponsorship Available" },
-              { value: "F1_OPT_COMPATIBLE_SIGNAL", label: "F-1 / OPT Signal" },
-              { value: "WORK_AUTHORIZATION_MENTIONED", label: "Work Authorization Mentioned" },
-              { value: "NOT_MENTIONED", label: "Visa Not Mentioned — Review" },
-              { value: "NO_SPONSORSHIP", label: "No Sponsorship" },
-              { value: "RESTRICTED", label: "Restricted" },
-            ]}
-          />
-
-          <Select
-            label="Agency"
-            value={p.agency}
-            onChange={p.setAgency}
-            options={[
-              { value: "", label: "All agencies" },
-              { value: "Insight Global", label: "Insight Global" },
-              { value: "Randstad Digital", label: "Randstad Digital" },
-              { value: "Robert Half", label: "Robert Half" },
+              { value: "", label: "All posting visa evidence" },
+              { value: "EXPLICIT_SPONSORSHIP", label: "Explicit sponsorship" },
+              { value: "POSSIBLE_SPONSORSHIP", label: "Possible sponsorship language" },
+              { value: "NO_EXPLICIT_LANGUAGE", label: "No explicit visa language" },
             ]}
           />
 

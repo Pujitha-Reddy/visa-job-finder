@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 
 from .base import BaseCollector
 from .common import title_matches
+from app.ingestion.models import CollectionResult
 
 
 class GreenhouseCollector(BaseCollector):
@@ -21,15 +22,21 @@ class GreenhouseCollector(BaseCollector):
     def fetch(self, source):
         token = source.get("token")
         if not token:
-            return []
+            raise RuntimeError(
+                "GREENHOUSE requires a board token."
+            )
 
         list_url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs"
         r = requests.get(list_url, params={"content": "true"}, timeout=30)
         r.raise_for_status()
 
-        jobs = []
+        payload = r.json()
+        raw_jobs = payload.get("jobs") or []
 
-        for raw in r.json().get("jobs", []):
+        jobs = []
+        scanned = len(raw_jobs)
+
+        for raw in raw_jobs:
             title = (raw.get("title") or "").strip()
 
             if not title_matches(title):
@@ -90,7 +97,14 @@ class GreenhouseCollector(BaseCollector):
                 "ats": "GREENHOUSE",
             })
 
-        return jobs
+        return CollectionResult(
+            jobs=jobs,
+            snapshot_complete=True,
+            records_scanned=scanned,
+            expected_total=scanned,
+            pages_completed=1,
+            termination_reason="FULL_BOARD_RESPONSE",
+        )
 
 
 def fetch_greenhouse_jobs(company: str, token: str):
@@ -102,4 +116,9 @@ def fetch_greenhouse_jobs(company: str, token: str):
         "token": token,
     }
 
-    return collector.fetch(source)
+    result = collector.fetch(source)
+
+    if isinstance(result, CollectionResult):
+        return result.jobs
+
+    return result

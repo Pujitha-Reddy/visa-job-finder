@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from .base import BaseCollector
 from .common import title_matches
+from app.ingestion.models import CollectionResult
 
 class SmartRecruitersCollector(BaseCollector):
     ats_name = "SMARTRECRUITERS"
@@ -34,9 +35,22 @@ class SmartRecruitersCollector(BaseCollector):
 
     def fetch(self, source):
         token = (source.get("token") or "").strip()
+
         if not token:
-            return []
-        jobs, offset, limit = [], 0, 100
+            raise RuntimeError(
+                "SMARTRECRUITERS requires a company token."
+            )
+
+        jobs = []
+        offset = 0
+        limit = 100
+
+        scanned = 0
+        pages = 0
+        expected_total = None
+        termination_reason = None
+
+        seen_page_signatures = set()
 
         while True:
             data = self._get(
@@ -44,9 +58,55 @@ class SmartRecruitersCollector(BaseCollector):
                 {"offset":offset,"limit":limit,"destination":"PUBLIC"},
             )
             content = data.get("content") or []
-            total = int(data.get("totalFound") or len(content))
+            pages += 1
+
+            reported_total = data.get("totalFound")
+
+            if expected_total is None:
+                try:
+                    parsed_total = int(
+                        reported_total
+                    )
+                except (TypeError, ValueError):
+                    parsed_total = 0
+
+                if parsed_total > 0:
+                    expected_total = parsed_total
+
             if not content:
+                termination_reason = "EMPTY_PAGE"
                 break
+
+            page_signature = tuple(
+                str(
+                    raw.get("id")
+                    or raw.get("uuid")
+                    or raw.get("jobAdUrl")
+                    or ""
+                )
+                for raw in content
+            )
+
+            if (
+                page_signature
+                and page_signature
+                in seen_page_signatures
+            ):
+                termination_reason = "REPEATED_PAGE"
+
+                print(
+                    f"[SMARTRECRUITERS PARTIAL] "
+                    f"{source.get('employer_name')} "
+                    f"| repeated page at offset={offset}"
+                )
+
+                break
+
+            seen_page_signatures.add(
+                page_signature
+            )
+
+            scanned += len(content)
 
             for raw in content:
                 title = (raw.get("name") or raw.get("title") or "").strip()
@@ -106,7 +166,34 @@ class SmartRecruitersCollector(BaseCollector):
                 })
 
             offset += len(content)
-            if offset >= total:
+
+            if len(content) < limit:
+                termination_reason = "SHORT_FINAL_PAGE"
                 break
 
-        return jobs
+            if (
+                expected_total is not None
+                and offset >= expected_total
+            ):
+                termination_reason = (
+                    "EXPECTED_TOTAL_REACHED"
+                )
+                break
+
+        snapshot_complete = (
+            termination_reason
+            in {
+                "EMPTY_PAGE",
+                "SHORT_FINAL_PAGE",
+                "EXPECTED_TOTAL_REACHED",
+            }
+        )
+
+        return CollectionResult(
+            jobs=jobs,
+            snapshot_complete=snapshot_complete,
+            records_scanned=scanned,
+            expected_total=expected_total,
+            pages_completed=pages,
+            termination_reason=termination_reason,
+        )

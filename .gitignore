@@ -21,3 +21,14 @@ frontend/tsconfig.tsbuildinfo
 
 # Local backend data
 backend/data/
+
+# Local runtime / build artifacts
+backend/jobs.db
+*.bak
+*.bak_*
+*.log
+
+# Local diagnostic / probe utilities
+backend/app/probe_*.py
+backend/app/test_*.py
+backend/app/launchd_smoke.py

@@ -15,6 +15,10 @@ from .robert_half import RobertHalfCollector
 from .amazon import AmazonCollector
 from .apple import AppleCollector
 from .hybrid import HybridCollector
+from .radancy import RadancyCollector
+from .adp import ADPCollector
+from .radancy_sas import RadancySearchServiceCollector
+from .generic_jobs import GenericJobCollector
 
 COLLECTORS = {
     "HYBRID": HybridCollector(),
@@ -33,8 +37,13 @@ COLLECTORS = {
     "RANDSTAD": RandstadCollector(),
     "ROBERT_HALF": RobertHalfCollector(),
     "AMAZON": AmazonCollector(),
+    "RADANCY": RadancyCollector(),
     "APPLE": AppleCollector(),
+    "ADP": ADPCollector(),
+    "RADANCY_SAS": RadancySearchServiceCollector(),
+    "GENERIC": GenericJobCollector(),
 }
+
 
 def get_collector(ats):
     return COLLECTORS.get((ats or "").upper())

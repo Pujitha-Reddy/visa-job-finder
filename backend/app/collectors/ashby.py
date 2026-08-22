@@ -1,6 +1,7 @@
 import requests
 from .base import BaseCollector
 from .common import title_matches
+from app.ingestion.models import CollectionResult
 
 class AshbyCollector(BaseCollector):
     ats_name = "ASHBY"
@@ -8,12 +9,19 @@ class AshbyCollector(BaseCollector):
     def fetch(self, source):
         board = source.get("token")
         if not board:
-            return []
+            raise RuntimeError(
+                "ASHBY requires a board token."
+            )
         url = f"https://api.ashbyhq.com/posting-api/job-board/{board}"
         r = requests.get(url, params={"includeCompensation":"true"}, timeout=30)
         r.raise_for_status()
+        payload = r.json()
+        raw_jobs = payload.get("jobs") or []
+
         jobs = []
-        for raw in r.json().get("jobs", []):
+        scanned = len(raw_jobs)
+
+        for raw in raw_jobs:
             if not raw.get("isListed", True):
                 continue
             title = (raw.get("title") or "").strip()
@@ -35,4 +43,11 @@ class AshbyCollector(BaseCollector):
                 "raw_employment_type":raw.get("employmentType"),
                 "raw_workplace_type":raw.get("workplaceType"),
             })
-        return jobs
+        return CollectionResult(
+            jobs=jobs,
+            snapshot_complete=True,
+            records_scanned=scanned,
+            expected_total=scanned,
+            pages_completed=1,
+            termination_reason="FULL_BOARD_RESPONSE",
+        )

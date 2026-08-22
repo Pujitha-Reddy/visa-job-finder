@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 from .base import BaseCollector
 from .common import title_matches
+from app.ingestion.models import CollectionResult
 
 
 class EightfoldCollector(BaseCollector):
@@ -121,6 +122,20 @@ class EightfoldCollector(BaseCollector):
         jobs = []
         start = 0
 
+        # Eightfold count may not be reliable on every page.
+        # Preserve the first positive count instead of allowing
+        # a later zero/missing value to truncate pagination.
+        expected_total = None
+        scanned = 0
+        rejected = 0
+        pages = 0
+
+        # Protect against a tenant accidentally returning
+        # the same search page for successive start offsets.
+        seen_position_ids = set()
+        termination_reason = None
+        snapshot_complete = False
+
         while True:
             # ----------------------------------------------
             # Search
@@ -130,7 +145,12 @@ class EightfoldCollector(BaseCollector):
                 base + "/api/pcsx/search",
                 params={
                     "domain": domain,
-                    "query": "software engineer",
+                    # Eightfold query is semantic/full-text and
+                    # is not a trustworthy software-role filter.
+                    #
+                    # Fetch the complete employer inventory and
+                    # apply title_matches() deterministically below.
+                    "query": "",
                     "location": "",
                     "start": start,
                     "sort_by": "relevance",
@@ -152,15 +172,60 @@ class EightfoldCollector(BaseCollector):
             data = payload.get("data") or {}
 
             positions = data.get("positions") or []
-            total = int(data.get("count") or 0)
+            pages += 1
+
+            reported_total = data.get("count")
+
+            if expected_total is None:
+                try:
+                    parsed_total = int(reported_total)
+                except (TypeError, ValueError):
+                    parsed_total = 0
+
+                if parsed_total > 0:
+                    expected_total = parsed_total
 
             if not positions:
+                termination_reason = "EMPTY_PAGE"
+                snapshot_complete = True
                 break
 
+            page_ids = {
+                str(raw.get("id"))
+                for raw in positions
+                if raw.get("id") is not None
+            }
+
+            if (
+                page_ids
+                and page_ids.issubset(seen_position_ids)
+            ):
+                termination_reason = "REPEATED_PAGE"
+                snapshot_complete = False
+
+                print(
+                    "[EIGHTFOLD PARTIAL]",
+                    source.get("employer_name"),
+                    "| repeated page at start=",
+                    start,
+                )
+
+                break
+
+            seen_position_ids.update(
+                page_ids
+            )
+
             for raw in positions:
-                title = (raw.get("name") or "").strip()
+                scanned += 1
+
+                title = (
+                    raw.get("name")
+                    or ""
+                ).strip()
 
                 if not title_matches(title):
+                    rejected += 1
                     continue
 
                 position_id = raw.get("id")
@@ -368,9 +433,43 @@ class EightfoldCollector(BaseCollector):
                     ),
                 })
 
-            start += len(positions)
+            page_size = len(positions)
+            start += page_size
 
-            if start >= total:
+            # Prefer the first trustworthy total.
+            if (
+                expected_total is not None
+                and start >= expected_total
+            ):
+                termination_reason = "EXPECTED_TOTAL_REACHED"
+                snapshot_complete = True
                 break
 
-        return jobs
+        print(
+            f"[EIGHTFOLD] {source.get('employer_name')}: "
+            f"{scanned} positions scanned / "
+            f"{len(jobs)} software accepted / "
+            f"{rejected} title rejected / "
+            f"{pages} pages / "
+            f"expected_total={expected_total}"
+        )
+
+        return CollectionResult(
+            jobs=jobs,
+
+            snapshot_complete=(
+                snapshot_complete
+            ),
+
+            records_scanned=scanned,
+
+            expected_total=(
+                expected_total
+            ),
+
+            pages_completed=pages,
+
+            termination_reason=(
+                termination_reason
+            ),
+        )

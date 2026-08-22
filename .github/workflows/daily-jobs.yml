@@ -1,25 +1,24 @@
-name: Collect Jobs
+name: Visa Job Finder Production Refresh
 
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: "17 7,10,13,16,19,22 * * *"
-      timezone: "America/Chicago"
-
 concurrency:
-  group: visa-job-finder-collector
+  group: visa-job-finder-production-refresh
   cancel-in-progress: false
 
 jobs:
-  collect-jobs:
+  refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
 
     permissions:
       contents: read
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SKIP_STALE_DELETE: "1"
+      PYTHONUNBUFFERED: "1"
 
     steps:
       - name: Checkout repository
@@ -38,19 +37,35 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Bootstrap runner database
+      - name: Hydrate fresh runner from Postgres
         working-directory: backend
         run: |
-          python -m app.bootstrap_ci
+          rm -f data/jobs.db
+          python -u -m app.bootstrap_v119_cloud_runner
 
-      - name: Run canonical job pipeline
+      - name: Run canonical V112 refresh
         working-directory: backend
-        env:
-          SKIP_STALE_DELETE: "1"
         run: |
-          python -m app.run_pipeline_v87
+          python -u -m app.run_v112_refresh_pipeline
 
-      - name: Print sponsor coverage
+      - name: Run bounded employer auto-onboarding
         working-directory: backend
         run: |
-          python -m app.sponsor_coverage
+          python -u -m app.run_employer_auto_onboarding \
+            --create-batch \
+            --batch-limit 25 \
+            --discovery-limit 5 \
+            --verification-limit 5 \
+            --min-interval-hours 24
+
+      - name: Persist employer growth state to Postgres
+        if: always()
+        working-directory: backend
+        run: |
+          python -u -m app.sync_v119_runtime_state_to_postgres
+
+      - name: Production health
+        if: always()
+        working-directory: backend
+        run: |
+          python -u -m app.run_v113_health

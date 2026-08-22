@@ -64,9 +64,19 @@ def sync():
 
             data = {k: v for k, v in row.items() if k in column_set}
             # SQLite stores booleans as 0/1 integers.
-# PostgreSQL jobs.is_active is BOOLEAN.
-            if "is_active" in data and data["is_active"] is not None:
-                data["is_active"] = bool(data["is_active"])
+            # PostgreSQL stores lifecycle / eligibility
+            # flags as BOOLEAN.
+            for boolean_field in (
+                "is_active",
+                "is_eligible",
+            ):
+                if (
+                    boolean_field in data
+                    and data[boolean_field] is not None
+                ):
+                    data[boolean_field] = bool(
+                        data[boolean_field]
+                    )
 
             # For new rows we do not force the SQLite id into Postgres. This
             # avoids identity collisions after Supabase becomes authoritative.

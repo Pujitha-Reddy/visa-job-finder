@@ -13,6 +13,8 @@ from .sponsorship.enrich import enrich_all_jobs
 from .repository import update_application_status, recalculate_all_scores
 from .scoring.overall import calculate_overall_score
 
+from .v110_routes import router as v110_router
+from .v113_routes import router as v113_router
 app = FastAPI(
     title="Visa Job Finder API",
     version="0.1.0",
@@ -22,6 +24,8 @@ app = FastAPI(
 app.include_router(v80_router)
 
 app.include_router(v78_router)
+app.include_router(v110_router)
+app.include_router(v113_router)
 
 
 cors_origins = [
@@ -63,6 +67,8 @@ def list_jobs(
     min_score: float = 0,
 ):
     clauses = [
+        "COALESCE(is_active, 1) = 1",
+        "COALESCE(is_eligible, 1) = 1",
         "overall_score >= ?",
         "datetime(posted_at) >= datetime('now', ?)"
     ]
@@ -120,7 +126,9 @@ def stats(hours: int = Query(default=24, enum=[24, 72])):
                 SUM(CASE WHEN decision='NEEDS_REVIEW' THEN 1 ELSE 0 END) AS review_count,
                 SUM(CASE WHEN decision='SKIP' THEN 1 ELSE 0 END) AS skip_count
             FROM jobs
-            WHERE datetime(posted_at) >= datetime('now', ?)
+            WHERE COALESCE(is_active, 1) = 1
+              AND COALESCE(is_eligible, 1) = 1
+              AND datetime(posted_at) >= datetime('now', ?)
             """,
             (f"-{hours} hours",),
         ).fetchone()

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import UnifiedFilterPanel from "./UnifiedFilterPanel";
 import SourceHealthPage from "./SourceHealthPage";
-import { fetchJobs, fetchStats, updateJobStatus } from "./api_v80";
+import { fetchJobs, fetchStats, updateJobStatus } from "./api_v110";
 import type { Filters, Job, JobSort } from "./types";
 
 const defaultFilters: Filters = {
@@ -53,57 +53,154 @@ function experienceLabel(job: Job) {
 
 function visaLabel(job: Job) {
   const value =
-    job.visa_detail_status ||
     job.visa_language_status ||
-    "UNKNOWN";
-  return value.replace(/_/g, " ");
+    job.visa_detail_status ||
+    "NO_EXPLICIT_LANGUAGE";
+
+  switch (value) {
+    case "EXPLICIT_SPONSORSHIP":
+      return "Posting explicitly mentions sponsorship";
+
+    case "POSSIBLE_SPONSORSHIP":
+      return "Possible sponsorship language";
+
+    case "NO_EXPLICIT_LANGUAGE":
+      return "No explicit visa language";
+
+    case "SPONSORSHIP_AVAILABLE":
+      return "Posting mentions sponsorship";
+
+    case "NO_SPONSORSHIP":
+      return "Posting says no sponsorship";
+
+    case "RESTRICTED":
+      return "Work authorization restricted";
+
+    default:
+      return value.replace(/_/g, " ");
+  }
 }
+
 
 function whyThisMatches(job: Job) {
   const reasons: string[] = [];
+
   const age = postedAge(job);
 
-  if (!age.includes("unavailable")) reasons.push(age);
+  if (!age.includes("unavailable")) {
+    reasons.push(age);
+  }
 
   if (job.min_experience_years != null) {
-    reasons.push(`${job.min_experience_years}+ years experience requirement`);
+    reasons.push(
+      `${job.min_experience_years}+ years experience requirement`,
+    );
   } else {
-    reasons.push("Experience requirement not specified");
+    reasons.push(
+      "Experience requirement not specified",
+    );
   }
 
-  if (job.h1b_history_strength === "STRONG") {
-    reasons.push("Strong historical H-1B sponsorship evidence");
-  } else if (job.h1b_history_strength === "MEDIUM") {
-    reasons.push("Moderate historical H-1B sponsorship evidence");
-  }
+  const history =
+    job.sponsor_history_strength ||
+    job.h1b_history_strength ||
+    "UNKNOWN";
 
-  if (job.source_type === "DIRECT_EMPLOYER") reasons.push("Direct employer source");
-  if (job.work_arrangement === "REMOTE") reasons.push("Remote opportunity");
+  if (history === "STRONG") {
+    reasons.push(
+      "Strong historical employer sponsorship evidence",
+    );
+  } else if (
+    history === "GOOD" ||
+    history === "MODERATE" ||
+    history === "MEDIUM"
+  ) {
+    reasons.push(
+      "Established historical employer sponsorship evidence",
+    );
+  } else if (
+    history === "WEAK" ||
+    history === "LOW"
+  ) {
+    reasons.push(
+      "Limited historical employer sponsorship evidence",
+    );
+  }
 
   if (
-    (job.visa_detail_status || job.visa_language_status) === "NOT_MENTIONED"
+    job.visa_language_status ===
+    "EXPLICIT_SPONSORSHIP"
   ) {
-    reasons.push("Visa sponsorship is not explicitly stated — review the posting");
+    reasons.push(
+      "This specific posting explicitly mentions visa sponsorship",
+    );
+  } else if (
+    job.visa_language_status ===
+    "POSSIBLE_SPONSORSHIP"
+  ) {
+    reasons.push(
+      "This posting contains possible sponsorship language",
+    );
+  } else if (
+    job.visa_language_status ===
+    "NO_EXPLICIT_LANGUAGE"
+  ) {
+    reasons.push(
+      "No explicit sponsorship language found in this posting",
+    );
+  }
+
+  if (job.work_arrangement === "REMOTE") {
+    reasons.push(
+      "Remote opportunity",
+    );
   }
 
   return reasons;
 }
 
+
 function badgeTone(value: string) {
   if (
-    ["STRONG", "REMOTE", "SPONSORSHIP_AVAILABLE", "F1_OPT_COMPATIBLE_SIGNAL"].includes(value)
-  ) return "badge good";
+    [
+      "STRONG",
+      "GOOD",
+      "REMOTE",
+      "EXPLICIT_SPONSORSHIP",
+      "SPONSORSHIP_AVAILABLE",
+    ].includes(value)
+  ) {
+    return "badge good";
+  }
 
   if (
-    ["MEDIUM", "HYBRID", "NOT_MENTIONED", "WORK_AUTHORIZATION_MENTIONED"].includes(value)
-  ) return "badge warn";
+    [
+      "MODERATE",
+      "MEDIUM",
+      "HYBRID",
+      "POSSIBLE_SPONSORSHIP",
+      "NO_EXPLICIT_LANGUAGE",
+    ].includes(value)
+  ) {
+    return "badge warn";
+  }
 
   if (
-    ["NO_SPONSORSHIP", "RESTRICTED", "SKIPPED", "REJECTED"].includes(value)
-  ) return "badge bad";
+    [
+      "WEAK",
+      "LOW",
+      "NO_SPONSORSHIP",
+      "RESTRICTED",
+      "SKIPPED",
+      "REJECTED",
+    ].includes(value)
+  ) {
+    return "badge bad";
+  }
 
   return "badge neutral";
 }
+
 
 function App() {
   const [view, setView] = useState<"jobs" | "source-health">("jobs");
@@ -112,7 +209,7 @@ function App() {
   const [stats, setStats] = useState<any>(null);
   const [filters, setFilters] = useState<Filters>(defaultFilters);
 
-  const [sourceType, setSourceType] = useState("DIRECT_EMPLOYER");
+  const [sourceType, setSourceType] = useState("");
   const [agency, setAgency] = useState("");
   const [employmentDetail, setEmploymentDetail] = useState("");
   const [visaDetail, setVisaDetail] = useState("");
@@ -189,7 +286,7 @@ function App() {
       hours,
       applicationStatus: "NEW",
     }));
-    setSourceType("DIRECT_EMPLOYER");
+    setSourceType("");
     setSort("best");
   }
 
@@ -291,7 +388,7 @@ function App() {
               className="resetButton"
               onClick={() => {
                 setFilters(defaultFilters);
-                setSourceType("DIRECT_EMPLOYER");
+                setSourceType("");
                 setAgency("");
                 setEmploymentDetail("");
                 setVisaDetail("");
@@ -392,6 +489,11 @@ function JobCard({
 }) {
   const reasons = whyThisMatches(job);
 
+  const sponsorHistory =
+    job.sponsor_history_strength ||
+    job.h1b_history_strength ||
+    "UNKNOWN";
+
   return (
     <article className="jobCard">
       <div className="jobTop">
@@ -429,11 +531,11 @@ function JobCard({
 
       <div className="badges">
         <span className={badgeTone(job.work_arrangement)}>{job.work_arrangement}</span>
-        <span className={badgeTone(job.h1b_history_strength)}>
-          H-1B {job.h1b_history_strength}
+        <span className={badgeTone(sponsorHistory)}>
+          Employer sponsor history: {sponsorHistory}
         </span>
         <span
-          className={badgeTone(job.visa_detail_status || job.visa_language_status)}
+          className={badgeTone(job.visa_language_status || job.visa_detail_status || "UNKNOWN")}
         >
           {visaLabel(job)}
         </span>
@@ -448,6 +550,14 @@ function JobCard({
         <div><span>Experience</span><strong>{experienceLabel(job)}</strong></div>
         <div><span>Sponsor score</span><strong>{Math.round(job.sponsorship_score)}/100</strong></div>
         <div>
+          <span>Recent sponsor filings</span>
+          <strong>{job.sponsor_recent_filings ?? "—"}</strong>
+        </div>
+        <div>
+          <span>Recent sponsor approvals</span>
+          <strong>{job.sponsor_recent_approvals ?? "—"}</strong>
+        </div>
+        <div>
           <span>Employment</span>
           <strong>
             {(job.employment_detail_type || job.employment_type).replace(/_/g, " ")}
@@ -455,6 +565,13 @@ function JobCard({
         </div>
         <div><span>Freshness</span><strong>{job.freshness_confidence || "UNKNOWN"}</strong></div>
       </div>
+
+      {job.visa_language_evidence && (
+        <p className="reason">
+          <strong>Posting evidence:</strong>{" "}
+          {job.visa_language_evidence}
+        </p>
+      )}
 
       <details className="why">
         <summary>Why this matches</summary>

@@ -28,16 +28,14 @@ export type Job = {
     | "INTERNSHIP"
     | "UNKNOWN";
   employment_detail_type?: string | null;
-  visa_language_status:
-    | "SPONSORSHIP_AVAILABLE"
-    | "OPT_F1_MENTIONED"
-    | "NO_SPONSORSHIP"
-    | "RESTRICTED"
-    | "NOT_MENTIONED"
-    | "UNKNOWN";
+  visa_language_status: string;
   visa_detail_status?: string | null;
   visa_evidence_text?: string | null;
-  h1b_history_strength: "STRONG" | "MEDIUM" | "LOW" | "UNKNOWN";
+  h1b_history_strength?: string | null;
+  sponsor_history_strength?: string | null;
+  sponsor_recent_filings?: number | null;
+  sponsor_recent_approvals?: number | null;
+  visa_language_evidence?: string | null;
   sponsorship_score: number;
   overall_score: number;
   source_confidence_score?: number | null;
@@ -55,6 +53,17 @@ export type Job = {
   is_active?: boolean | null;
   last_verified_at?: string | null;
   disappeared_at?: string | null;
+
+  employer?: string | null;
+  employer_domain?: string | null;
+  location?: string | null;
+  seniority_band?: string | null;
+  software_role_family?: string | null;
+  state_code?: string | null;
+  city?: string | null;
+  country_code?: string | null;
+  sponsorship_eligibility?: string | null;
+  eligibility_reason?: string | null;
 };
 
 export type Filters = {
