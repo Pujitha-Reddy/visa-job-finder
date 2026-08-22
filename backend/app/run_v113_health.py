@@ -9,6 +9,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from .postgres_repository import pg_conn
 from .canonical_db import canonical_conn, backend_name
 from .database import DB_PATH
 from .registry.repository import list_enabled_sources
@@ -110,6 +111,21 @@ def scheduler_health():
 
 
 def ingestion_health():
+    """
+    Current-pass coverage/status comes from the ephemeral
+    SQLite ingestion_runs table.
+
+    In cloud execution, persistent production failure state
+    comes from durable Postgres source_health.
+
+    This lets a transient current-pass source failure remain
+    visible in status_counts without incorrectly classifying it
+    as a persistent production failure after the durable source
+    has recovered.
+    """
+
+    import os
+
     registry = list_enabled_sources()
 
     expected_ids = {
@@ -135,7 +151,9 @@ def ingestion_health():
     latest = {}
 
     for row in rows:
-        source_id = str(row["provider_source_id"])
+        source_id = str(
+            row["provider_source_id"]
+        )
 
         if (
             source_id in expected_ids
@@ -155,25 +173,86 @@ def ingestion_health():
         expected_ids - set(latest)
     )
 
-    failures = []
+    if os.getenv("DATABASE_URL"):
+        failures = []
 
-    for source_id, row in latest.items():
-        if row.get("status") != "SUCCESS":
-            failures.append(
-                {
-                    "source_id": source_id,
-                    "provider": row.get("provider"),
-                    "status": row.get("status"),
-                    "error": row.get("error"),
-                }
+        with pg_conn() as conn, conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT
+                    source_key,
+                    employer_name,
+                    ats,
+                    consecutive_failures,
+                    last_error
+                FROM source_health
+                WHERE enabled IS TRUE
+                  AND consecutive_failures > 0
+                ORDER BY
+                    consecutive_failures DESC,
+                    employer_name
+                """
             )
 
+            for row in cur.fetchall():
+                failures.append(
+                    {
+                        "source_key":
+                            row["source_key"],
+
+                        "employer":
+                            row["employer_name"],
+
+                        "provider":
+                            row["ats"],
+
+                        "status":
+                            "PERSISTENT_FAILED",
+
+                        "consecutive_failures":
+                            row["consecutive_failures"],
+
+                        "error":
+                            row["last_error"],
+                    }
+                )
+
+    else:
+        failures = []
+
+        for source_id, row in latest.items():
+            if row.get("status") != "SUCCESS":
+                failures.append(
+                    {
+                        "source_id":
+                            source_id,
+
+                        "provider":
+                            row.get("provider"),
+
+                        "status":
+                            row.get("status"),
+
+                        "error":
+                            row.get("error"),
+                    }
+                )
+
     return {
-        "enabled_sources": len(expected_ids),
-        "sources_with_run": len(latest),
-        "status_counts": dict(counts),
-        "missing_sources": missing,
-        "persistent_failures": failures,
+        "enabled_sources":
+            len(expected_ids),
+
+        "sources_with_run":
+            len(latest),
+
+        "status_counts":
+            dict(counts),
+
+        "missing_sources":
+            missing,
+
+        "persistent_failures":
+            failures,
     }
 
 
@@ -446,6 +525,11 @@ def print_human(report):
     print(
         "  persistent failures:",
         len(i["persistent_failures"]),
+        "| authority:",
+        i.get(
+            "failure_backend",
+            "unknown",
+        ),
     )
 
     c = report["canonical"]
