@@ -110,90 +110,14 @@ def scheduler_health():
 
 
 def ingestion_health():
-
     registry = list_enabled_sources()
-
     expected_ids = {
         str(source["source_id"])
         for source in registry
     }
 
-    if os.getenv("DATABASE_URL"):
-
-        from .postgres_repository import pg_conn
-
-        with pg_conn() as conn, conn.cursor() as cur:
-
-            cur.execute("""
-                SELECT
-                    source_key,
-                    employer_name,
-                    ats,
-                    consecutive_failures,
-                    last_error
-                FROM source_health
-                WHERE enabled IS TRUE
-            """)
-
-            rows = cur.fetchall()
-
-        failures = []
-
-        for row in rows:
-            row = dict(row)
-
-            if (
-                row.get("consecutive_failures")
-                or 0
-            ) > 0:
-
-                failures.append({
-                    "source_key":
-                        row.get("source_key"),
-
-                    "employer":
-                        row.get("employer_name"),
-
-                    "provider":
-                        row.get("ats"),
-
-                    "status":
-                        "FAILED",
-
-                    "error":
-                        row.get("last_error"),
-                })
-
-        successful = (
-            len(expected_ids)
-            - len(failures)
-        )
-
-        return {
-            "enabled_sources":
-                len(expected_ids),
-
-            "sources_with_run":
-                len(expected_ids),
-
-            "status_counts": {
-                "SUCCESS": successful,
-                **(
-                    {"FAILED": len(failures)}
-                    if failures
-                    else {}
-                ),
-            },
-
-            "missing_sources": [],
-
-            "persistent_failures":
-                failures,
-        }
-
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
-
     try:
         rows = conn.execute(
             """
@@ -207,18 +131,13 @@ def ingestion_health():
         conn.close()
 
     latest = {}
-
     for row in rows:
-        source_id = str(
-            row["provider_source_id"]
-        )
-
+        source_id = str(row["provider_source_id"])
         if (
             source_id in expected_ids
             and source_id not in latest
         ):
             latest[source_id] = dict(row)
-
         if len(latest) == len(expected_ids):
             break
 
@@ -231,39 +150,62 @@ def ingestion_health():
         expected_ids - set(latest)
     )
 
-    failures = []
+    # On a cloud runner, persistent source health must come from
+    # durable Postgres state. A failed attempt in ephemeral SQLite
+    # ingestion_runs is not by itself a persistent production failure.
+    if backend_name() == "postgres":
+        with canonical_conn() as pg:
+            cur = pg.cursor()
+            cur.execute(
+                """
+                SELECT
+                    source_key,
+                    employer_name,
+                    ats,
+                    consecutive_failures,
+                    last_error
+                FROM source_health
+                WHERE enabled IS TRUE
+                  AND consecutive_failures > 0
+                ORDER BY consecutive_failures DESC,
+                         employer_name
+                """
+            )
+            rows_pg = cur.fetchall()
 
-    for source_id, row in latest.items():
-
-        if row.get("status") != "SUCCESS":
-
-            failures.append({
-                "source_id": source_id,
-                "provider":
-                    row.get("provider"),
-                "status":
-                    row.get("status"),
-                "error":
-                    row.get("error"),
-            })
+            failures = []
+            for row in rows_pg:
+                if hasattr(row, "keys"):
+                    item = dict(row)
+                else:
+                    item = {
+                        "source_key": row[0],
+                        "employer_name": row[1],
+                        "ats": row[2],
+                        "consecutive_failures": row[3],
+                        "last_error": row[4],
+                    }
+                failures.append(item)
+    else:
+        failures = []
+        for source_id, row in latest.items():
+            if row.get("status") != "SUCCESS":
+                failures.append(
+                    {
+                        "source_id": source_id,
+                        "provider": row.get("provider"),
+                        "status": row.get("status"),
+                        "error": row.get("error"),
+                    }
+                )
 
     return {
-        "enabled_sources":
-            len(expected_ids),
-
-        "sources_with_run":
-            len(latest),
-
-        "status_counts":
-            dict(counts),
-
-        "missing_sources":
-            missing,
-
-        "persistent_failures":
-            failures,
+        "enabled_sources": len(expected_ids),
+        "sources_with_run": len(latest),
+        "status_counts": dict(counts),
+        "missing_sources": missing,
+        "persistent_failures": failures,
     }
-
 
 def canonical_health():
     is_postgres = (
