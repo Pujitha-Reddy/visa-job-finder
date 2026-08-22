@@ -110,16 +110,6 @@ def scheduler_health():
 
 
 def ingestion_health():
-    """
-    Current-pass execution state comes from the ephemeral SQLite
-    runner.
-
-    Persistent production failure state comes from Postgres when
-    the canonical backend is Postgres.
-
-    This preserves transient current-run failures without treating
-    them as persistent production failures.
-    """
 
     registry = list_enabled_sources()
 
@@ -128,9 +118,78 @@ def ingestion_health():
         for source in registry
     }
 
-    # ======================================================
-    # CURRENT-PASS AUTHORITY
-    # ======================================================
+    if os.getenv("DATABASE_URL"):
+
+        from .postgres_repository import pg_conn
+
+        with pg_conn() as conn, conn.cursor() as cur:
+
+            cur.execute("""
+                SELECT
+                    source_key,
+                    employer_name,
+                    ats,
+                    consecutive_failures,
+                    last_error
+                FROM source_health
+                WHERE enabled IS TRUE
+            """)
+
+            rows = cur.fetchall()
+
+        failures = []
+
+        for row in rows:
+            row = dict(row)
+
+            if (
+                row.get("consecutive_failures")
+                or 0
+            ) > 0:
+
+                failures.append({
+                    "source_key":
+                        row.get("source_key"),
+
+                    "employer":
+                        row.get("employer_name"),
+
+                    "provider":
+                        row.get("ats"),
+
+                    "status":
+                        "FAILED",
+
+                    "error":
+                        row.get("last_error"),
+                })
+
+        successful = (
+            len(expected_ids)
+            - len(failures)
+        )
+
+        return {
+            "enabled_sources":
+                len(expected_ids),
+
+            "sources_with_run":
+                len(expected_ids),
+
+            "status_counts": {
+                "SUCCESS": successful,
+                **(
+                    {"FAILED": len(failures)}
+                    if failures
+                    else {}
+                ),
+            },
+
+            "missing_sources": [],
+
+            "persistent_failures":
+                failures,
+        }
 
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -172,103 +231,21 @@ def ingestion_health():
         expected_ids - set(latest)
     )
 
-    current_failures = []
+    failures = []
 
     for source_id, row in latest.items():
+
         if row.get("status") != "SUCCESS":
-            current_failures.append(
-                {
-                    "source_id": source_id,
-                    "provider":
-                        row.get("provider"),
-                    "status":
-                        row.get("status"),
-                    "error":
-                        row.get("error"),
-                }
-            )
 
-    # ======================================================
-    # DURABLE FAILURE AUTHORITY
-    # ======================================================
-
-    if backend_name() == "postgres":
-        persistent_failures = []
-
-        with canonical_conn() as conn:
-            rows = conn.execute(
-                """
-                SELECT
-                    source_key,
-                    employer_name,
-                    ats,
-                    consecutive_failures,
-                    last_failure_at,
-                    last_success_at,
-                    last_error
-                FROM source_health
-                WHERE enabled=TRUE
-                  AND consecutive_failures > 0
-                ORDER BY
-                    consecutive_failures DESC,
-                    employer_name
-                """
-            ).fetchall()
-
-        for row in rows:
-            item = dict(row)
-
-            persistent_failures.append(
-                {
-                    "source_key":
-                        item.get("source_key"),
-                    "employer":
-                        item.get("employer_name"),
-                    "provider":
-                        item.get("ats"),
-                    "status":
-                        "FAILED",
-                    "consecutive_failures":
-                        item.get(
-                            "consecutive_failures"
-                        ),
-                    "error":
-                        item.get("last_error"),
-                    "last_failure_at":
-                        str(
-                            item.get(
-                                "last_failure_at"
-                            )
-                        )
-                        if item.get(
-                            "last_failure_at"
-                        )
-                        else None,
-                    "last_success_at":
-                        str(
-                            item.get(
-                                "last_success_at"
-                            )
-                        )
-                        if item.get(
-                            "last_success_at"
-                        )
-                        else None,
-                }
-            )
-
-        failure_authority = (
-            "POSTGRES_SOURCE_HEALTH"
-        )
-
-    else:
-        persistent_failures = (
-            current_failures
-        )
-
-        failure_authority = (
-            "SQLITE_INGESTION_RUNS"
-        )
+            failures.append({
+                "source_id": source_id,
+                "provider":
+                    row.get("provider"),
+                "status":
+                    row.get("status"),
+                "error":
+                    row.get("error"),
+            })
 
     return {
         "enabled_sources":
@@ -283,14 +260,8 @@ def ingestion_health():
         "missing_sources":
             missing,
 
-        "current_pass_failures":
-            current_failures,
-
         "persistent_failures":
-            persistent_failures,
-
-        "failure_authority":
-            failure_authority,
+            failures,
     }
 
 
