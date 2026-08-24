@@ -53,6 +53,8 @@ jobs:
           python -u -m app.run_v112_refresh_pipeline
 
       - name: Run bounded employer auto-onboarding
+        id: employer_growth
+        continue-on-error: true
         working-directory: backend
         run: |
           python -u -m app.run_employer_auto_onboarding \
@@ -61,6 +63,11 @@ jobs:
             --discovery-limit 5 \
             --verification-limit 5 \
             --min-interval-hours 24
+
+      - name: Report employer-growth warning
+        if: steps.employer_growth.outcome == 'failure'
+        run: |
+          echo "::warning::Employer auto-onboarding had bounded discovery/verification failures. Core V112 refresh remains healthy."
 
       - name: Persist employer growth state to Postgres
         if: always()
