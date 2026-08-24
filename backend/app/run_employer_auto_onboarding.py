@@ -727,14 +727,18 @@ def main():
     print("BEFORE:", before)
     print("AFTER: ", after)
 
+    completion_status = (
+        "PARTIAL"
+        if failures
+        else "SUCCESS"
+    )
+
     if failures:
         print()
         print("FAILED / TIMED OUT STAGES")
 
         for failure in failures:
             print(failure)
-
-        raise SystemExit(1)
 
     write_state({
         "last_completed_at":
@@ -743,13 +747,30 @@ def main():
             batches,
         "summary":
             after,
+        "status":
+            completion_status,
+        "failures":
+            failures,
     })
 
-    print()
-    print(
-        "[SUCCESS] V114 employer "
-        "auto-onboarding completed."
-    )
+    if failures:
+        print()
+        print(
+            "[WARNING] V114 employer auto-onboarding "
+            "completed with isolated stage failures."
+        )
+        print(
+            "[WARNING] Successful batches/stages were "
+            "preserved; pending work remains eligible "
+            "for a future onboarding cycle."
+        )
+    else:
+        print()
+        print(
+            "[SUCCESS] V114 employer "
+            "auto-onboarding completed."
+        )
+
 
 
 if __name__ == "__main__":

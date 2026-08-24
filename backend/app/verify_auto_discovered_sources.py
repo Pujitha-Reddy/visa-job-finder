@@ -43,7 +43,16 @@ def verify_ats_candidate(
     employer_name,
     candidate,
 ):
-    ats = (candidate.ats or "").upper()
+    """
+    Verify one employer candidate without allowing a resolver,
+    collector-construction, or collector-fetch exception to abort
+    verification of the remaining employers.
+    """
+
+    ats = (
+        candidate.ats
+        or ""
+    ).upper()
 
     if ats not in SUPPORTED_AUTO_VERIFY_ATS:
         return {
@@ -53,7 +62,20 @@ def verify_ats_candidate(
             "error": None,
         }
 
-    collector = get_collector(ats)
+    try:
+        collector = get_collector(
+            ats
+        )
+
+    except Exception as exc:
+        return {
+            "verified": False,
+            "status": "COLLECTOR_INIT_FAILED",
+            "jobs": 0,
+            "error": (
+                f"{type(exc).__name__}: {exc}"
+            ),
+        }
 
     if not collector:
         return {
@@ -63,57 +85,96 @@ def verify_ats_candidate(
             "error": None,
         }
 
-    careers_url = candidate.careers_url
+    careers_url = (
+        candidate.careers_url
+    )
 
     token = candidate.token
 
     # -----------------------------------------------------
-    # Automatically resolve missing ATS parameters
+    # Automatically resolve missing ATS parameters.
+    # Resolver failure belongs only to this employer.
     # -----------------------------------------------------
 
     if not token:
-        resolved = PARAMETER_RESOLVER.resolve(
-            ats,
-            careers_url,
-        )
+        try:
+            resolved = (
+                PARAMETER_RESOLVER.resolve(
+                    ats,
+                    careers_url,
+                )
+            )
+
+        except Exception as exc:
+            return {
+                "verified": False,
+                "status":
+                    "PARAMETER_RESOLUTION_FAILED",
+                "jobs": 0,
+                "error": (
+                    f"{type(exc).__name__}: {exc}"
+                ),
+            }
 
         if resolved:
-            careers_url = resolved.careers_url
+            careers_url = (
+                resolved.careers_url
+            )
 
             token = resolved.token
 
             print(
                 "ATS PARAMS:",
                 {
-                    "ats": resolved.ats,
-                    "careers_url": resolved.careers_url,
-                    "token": resolved.token,
-                    "confidence": resolved.confidence,
-                    "evidence": resolved.evidence,
+                    "ats":
+                        resolved.ats,
+                    "careers_url":
+                        resolved.careers_url,
+                    "token":
+                        resolved.token,
+                    "confidence":
+                        resolved.confidence,
+                    "evidence":
+                        resolved.evidence,
                 },
             )
 
     source = {
-        "employer_name": employer_name,
-        "ats": ats,
-        "token": token,
-        "careers_url": careers_url,
+        "employer_name":
+            employer_name,
+        "ats":
+            ats,
+        "token":
+            token,
+        "careers_url":
+            careers_url,
     }
 
     try:
-        jobs = collector.fetch(source)
+        jobs = collector.fetch(
+            source
+        )
 
     except Exception as exc:
         return {
             "verified": False,
             "status": "COLLECTOR_FAILED",
             "jobs": 0,
-            "error": str(exc),
+            "error": (
+                f"{type(exc).__name__}: {exc}"
+            ),
         }
 
     jobs = jobs or []
 
-    valid = [job for job in jobs if (job.get("title") and job.get("source_url"))]
+    valid = [
+        job
+        for job in jobs
+        if (
+            job.get("title")
+            and job.get("source_url")
+        )
+    ]
 
     if not valid:
         return {
@@ -123,7 +184,11 @@ def verify_ats_candidate(
             "error": None,
         }
 
-    unique_urls = {job.get("source_url") for job in valid if job.get("source_url")}
+    unique_urls = {
+        job.get("source_url")
+        for job in valid
+        if job.get("source_url")
+    }
 
     if not unique_urls:
         return {
@@ -137,9 +202,12 @@ def verify_ats_candidate(
         "verified": True,
         "status": "VERIFIED",
         "jobs": len(valid),
-        "unique_urls": len(unique_urls),
-        "resolved_token": token,
-        "resolved_careers_url": careers_url,
+        "unique_urls":
+            len(unique_urls),
+        "resolved_token":
+            token,
+        "resolved_careers_url":
+            careers_url,
         "error": None,
     }
 
@@ -242,10 +310,33 @@ def main():
             careers_url,
         )
 
-        candidates = engine.discover(
-            name,
-            careers_url,
-        )
+        try:
+            candidates = engine.discover(
+                name,
+                careers_url,
+            )
+
+        except Exception as exc:
+            print(
+                "[DISCOVERY ERROR]",
+                name,
+                "|",
+                repr(exc),
+            )
+
+            results.append(
+                {
+                    "id": row["id"],
+                    "name": name,
+                    "status": "DISCOVERY_FAILED",
+                    "ats": None,
+                    "careers_url": careers_url,
+                    "token": None,
+                    "error": repr(exc),
+                }
+            )
+
+            continue
 
         verified = None
 
