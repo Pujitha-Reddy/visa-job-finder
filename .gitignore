@@ -1,34 +1,30 @@
 .venv/
 __pycache__/
 *.pyc
+
 node_modules/
 dist/
-.env
-
-# Track our job database because GitHub Actions currently uses it
-!backend/data/jobs.db
-backend/data/source_discovery_cache.json
-backend/data/jobs.db
-
-# Local runtime / backup files
-*.pre-ui-v1
-*.before_eligibility_fix
-backend/data/jobs.db
 frontend/tsconfig.tsbuildinfo
 
-# Local development backups
-*.before-*
+.env
+.env.*
+!.env.example
 
-# Local backend data
 backend/data/
-
-# Local runtime / build artifacts
 backend/jobs.db
+*.db
+*.sqlite
+*.sqlite3
+
+*.log
 *.bak
 *.bak_*
-*.log
+*.before-*
+*.pre-ui-v1
+*.before_eligibility_fix
 
-# Local diagnostic / probe utilities
 backend/app/probe_*.py
 backend/app/test_*.py
 backend/app/launchd_smoke.py
+
+.DS_Store
