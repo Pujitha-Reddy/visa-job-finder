@@ -1,25 +1,33 @@
-# Visa Job Finder
+<h1 align="center">Visa Job Finder</h1>
 
-### 🛠️ Tech Stack
-
-<p align="left">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="40" height="40" alt="React" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="40" height="40" alt="TypeScript" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="40" height="40" alt="Python" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="40" height="40" alt="PostgreSQL" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="40" height="40" alt="SQLite" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" width="40" height="40" alt="FastAPI" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg" width="40" height="40" alt="Vite" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="40" height="40" alt="GitHub" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" width="40" height="40" alt="GitHub Actions" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="40" height="40" alt="Docker" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width="50" height="40" alt="AWS" />
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="40" height="40" alt="Git" />
+<p align="center">
+  <a href="https://visa-job-finder-ruby.vercel.app/">
+    <b>🚀 Live Website</b>
+  </a>
 </p>
 
 <p align="center">
-  <a href="https://visa-job-finder-ruby.vercel.app/"><b>Live Website</b></a>
+  <!-- logos -->
 </p>
+
+<div align="center">
+
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+<img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
+<img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+<img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions" />
+<img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white" alt="AWS" />
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
+
+
+</div>
+
 
 A production-oriented job discovery and prioritization platform for U.S. software engineering roles.
 
@@ -29,18 +37,13 @@ The system is designed around one core principle:
 
 > Find fresh, relevant U.S. software-engineering opportunities from primary employer sources and make sponsorship evidence, experience fit, and application state immediately actionable.
 
-**Frontend:** React · TypeScript · Vite · CSS  
-**Backend:** Python · FastAPI · REST APIs  
-**Data:** PostgreSQL · SQLite · SQL  
-**Ingestion:** Greenhouse · Lever · Workday · Ashby · SmartRecruiters · Eightfold · ADP · Radancy  
-**Cloud & DevOps:** GitHub Actions · Docker · AWS  
-**Architecture:** Cloud-native ingestion · Canonical job pipeline · Employer/source discovery · Sponsorship enrichment · Eligibility filtering · Automated refresh & health monitoring
 
 ---
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Tech Stack & Architecture](#tech-stack-&-Architecture)
 - [Why I Built This](#why-i-built-this)
 - [Key Capabilities](#key-capabilities)
 - [System Architecture](#system-architecture)
@@ -131,6 +134,16 @@ The result is a prioritized queue of fresh U.S. software-engineering jobs with s
 - employer source
 - posting freshness
 - application status
+---
+
+# Tech Stack & Architecture
+
+**Frontend:** React, TypeScript, Vite, CSS  
+**Backend:** Python, FastAPI, REST APIs  
+**Data:** PostgreSQL, SQLite, SQL  
+**Ingestion:** Greenhouse, Lever, Workday, Ashby, SmartRecruiters, Eightfold, ADP, Radancy  
+**Cloud & DevOps:** GitHub Actions, Docker, AWS  
+**Architecture:** Cloud-native ingestion, Canonical job pipeline, Employer/source discovery, Sponsorship enrichment, Eligibility filtering, Automated refresh & health monitoring
 
 ---
 
@@ -1596,3 +1609,7 @@ The production pipeline is designed to run independently of a developer workstat
 Full-Stack Software Engineer
 
 Built as an end-to-end software, data, automation, and cloud engineering project focused on making the U.S. software-engineering job search more structured, evidence-based, and actionable.
+
+## License
+
+Copyright © 2026 Pujitha Malladi. All rights reserved.
