@@ -1,5 +1,26 @@
 # Visa Job Finder
 
+### 🛠️ Tech Stack
+
+<p align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="40" height="40" alt="React" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="40" height="40" alt="TypeScript" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="40" height="40" alt="Python" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="40" height="40" alt="PostgreSQL" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="40" height="40" alt="SQLite" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" width="40" height="40" alt="FastAPI" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg" width="40" height="40" alt="Vite" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="40" height="40" alt="GitHub" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" width="40" height="40" alt="GitHub Actions" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="40" height="40" alt="Docker" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" width="50" height="40" alt="AWS" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="40" height="40" alt="Git" />
+</p>
+
+<p align="center">
+  <a href="https://visa-job-finder-ruby.vercel.app/"><b>Live Website</b></a>
+</p>
+
 A production-oriented job discovery and prioritization platform for U.S. software engineering roles.
 
 Visa Job Finder continuously collects jobs from employer career systems, normalizes them into a canonical job model, evaluates location and software-engineering relevance, enriches them with experience and sponsorship intelligence, ranks the resulting opportunities, and exposes them through a searchable web application.
@@ -7,6 +28,13 @@ Visa Job Finder continuously collects jobs from employer career systems, normali
 The system is designed around one core principle:
 
 > Find fresh, relevant U.S. software-engineering opportunities from primary employer sources and make sponsorship evidence, experience fit, and application state immediately actionable.
+
+**Frontend:** React · TypeScript · Vite · CSS  
+**Backend:** Python · FastAPI · REST APIs  
+**Data:** PostgreSQL · SQLite · SQL  
+**Ingestion:** Greenhouse · Lever · Workday · Ashby · SmartRecruiters · Eightfold · ADP · Radancy  
+**Cloud & DevOps:** GitHub Actions · Docker · AWS  
+**Architecture:** Cloud-native ingestion · Canonical job pipeline · Employer/source discovery · Sponsorship enrichment · Eligibility filtering · Automated refresh & health monitoring
 
 ---
 
