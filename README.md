@@ -1,9 +1,8 @@
 <h1 align="center">Visa Job Finder</h1>
 
 <p align="center">
-  <a href="https://visa-job-finder-ruby.vercel.app/">
-    <b>🚀 Live Website</b>
-  </a>
+  <a href="https://visa-job-finder-ruby.vercel.app/"><b>🚀 Live Website</b></a> .
+  <a href="https://pujithamalladi.vercel.app/case-studies/visa-job-finder"><b>Case Study</b></a>
 </p>
 
 <p align="center">
