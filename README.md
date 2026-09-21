@@ -1,4 +1,4 @@
-<h1 align="center">Visa Job Finder</h1>
+<h1 align="center">Visa Job Finder - a Career Platform</h1>
 
 <p align="center">
   <a href="https://visa-job-finder-ruby.vercel.app/"><b>🚀 Live Website</b></a> .
